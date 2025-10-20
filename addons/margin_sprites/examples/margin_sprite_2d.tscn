@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4kfo0nh8d4k1"]
+
+[ext_resource type="Texture2D" uid="uid://bppfienrhv6tq" path="res://icon.svg" id="1_x0cgh"]
+[ext_resource type="Script" uid="uid://dn06g0o5len06" path="res://addons/margin_sprites/margin_sprite_2d.gd" id="2_wu8pb"]
+
+[node name="MarginSprite2D" type="Sprite2D"]
+scale = Vector2(0.390625, 0.78125)
+texture = ExtResource("1_x0cgh")
+script = ExtResource("2_wu8pb")
+boundMode = 1
+stretchMode = 0
+minSize = Vector2(0, 0)
+maxSize = Vector2(50, 100)
+metadata/_custom_type_script = "uid://dn06g0o5len06"
