@@ -17,4 +17,4 @@ config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/marginsprites/plugin.cfg")
+enabled=PackedStringArray("res://addons/margin_sprites/plugin.cfg")

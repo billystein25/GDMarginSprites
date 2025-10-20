@@ -6,8 +6,8 @@ extends EditorPlugin
 const MARGIN_SPRITE_2D_TYPE: String = "MarginSprite2D"
 const MARGIN_SPRITE_3D_TYPE: String = "MarginSprite3D"
 # Scripts
-const MARGIN_SPRITE_2D_SCRIPT: String = "res://addons/marginsprites/margin_sprite_2d.gd"
-const MARGIN_SPRITE_3D_SCRIPT: String = "res://addons/marginsprites/margin_sprite_3d.gd"
+const MARGIN_SPRITE_2D_SCRIPT: String = "res://addons/margin_sprites/margin_sprite_2d.gd"
+const MARGIN_SPRITE_3D_SCRIPT: String = "res://addons/margin_sprites/margin_sprite_3d.gd"
 # Icons
 const MARGIN_SPRITE_2D_ICON: String = "res://icon.svg"
 const MARGIN_SPRITE_3D_ICON: String = "res://icon.svg"
