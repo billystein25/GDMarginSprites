@@ -1,5 +1,5 @@
-## An extention of Sprite2D that allows for precise sprite scaling to a
-## specified size.
+## An extention of Sprite2D that allows for precise scaling to a specified size.
+## in pixels.
 ##
 ## NOTE: [member Node2D.scale] is set by this class and thus should not be set
 ## by the user as it will be overwritten.[br]
@@ -9,64 +9,39 @@
 class_name MarginSprite2D
 extends Sprite2D
 
-## TODO
-# export min and max size in pixels
-# Bound mode ENUM
-# 	Exact: The texture is scaled to fit the pixel size exactly
-# 	Contained: The texture is contained within min and max size
-# 	max size or less: The texture is scaled to be equal to or lesser than max size
-# 	min size or greater: The texture is scaled to be equal to or greater than min size
-# Stretch mode ENUM
-# 	Stretch Scale: The texture is stretched to fit the bound mode with no consideration for the 
-# 	               scale ratio
-# 	Stretch Keep: The texture is stretched to fit the bound mode while keeping the scale ratio to 
-# 	              1 to 1
-# 	Stretch fit Width: Height is ignored. The texture is stretched to fit the bound mode only 
-# 	                   considering the Width
-# 	Stretch fit Height: Width is ignored. The texture is stretched to fit the bound mode only
-# 	                    considering the Height
+## Emitted when the [member Node2D.scale] is set and new [member Node2D.scale]
+## is different to [member old_scale].[br]
+## NOTE: The first time [member Node2D.scale] is set [member old_scale] is not
+## set yet and has value of [code]<null>[/code]. In that case both [param old]
+## and [param new] will have a value of [member Node2D.scale].
+signal scale_changed(old: Vector2, new: Vector2)
 
-# example. On stretch mode {stretch_fit_width} the texture will be scaled to fit the bounds of 
-#          the width ie the x scale while the aspect ratio remains 1.
-#          On stretch mode {stretch_scale} the texture will be scaled to fit the bounds of both
-#          the width and the height of the texture with no regards for the aspect ratio.
-#          On stretch mode {stretch_keep} the texture will be scaled to fit the bounds of both 
-#          the width and the height of the texture while keeping the aspect ratio to 1.
+## Set to [member Node2D.scale] whenever it is set through
+## [method _overwrite_scale]. Used to determine of the scale has been altered to
+## emit [signal scale_changed].
+var old_scale : Vector2
 
-## DEPRECATED
-## The modes that the sprite will scale to.
-enum BOUND_MODES{
-	CONTAINED, ## Sprite size is within [member min_size] and
-						 ## [member max_size]. [member max_size] takes priority.
-	MAX_SIZE_OR_LESS,    ## Sprite size equal to or less than [member max_size].
-	MIN_SIZE_OR_GREATER, ## Sprite size equal to or greater than [member min_size].
-}
-
-## The selected [enum BOUND_MODES] mode that the sprite will scale to.
-var bound_mode : BOUND_MODES = BOUND_MODES.CONTAINED:
-	set(value):
-		bound_mode = value
-		_overwrite_scale()
-		notify_property_list_changed()
-
-## The modes that the sprite will stretch to.
+## The modes that the node will stretch to.
 enum STRETCH_MODES{
-	STRETCH_SCALE,      ## The sprite will stretch to fit the [member bound_mode]
-						## disregarding its scale ratio.
-	STRETCH_KEEP,       ## The sprite will keep its scale ratio to
-						## [code](1, 1)[/code].
-	STRETCH_FIT_WIDTH,  ##
-	STRETCH_FIT_HEIGHT, ##
+	KEEP_RATIO,    ## The [member Node2D.scale] will be modified so that it will
+				   ## keep its ratio to [code](1, 1)[/code].
+	TO_FIT,        ## The [member Node2D.scale] will be modified to fit within
+				   ## [member min_size] and [member max_size] disregarding
+				   ## its Node2D.scale ratio.
+	TO_FIT_WIDTH,  ## Only [member Node2D.scale.x] will be modified to fit within
+				   ## [member min_size] and [member max_size]
+	TO_FIT_HEIGHT, ## Only [member Node2D.scale.y] will be modified to fit within
+				   ## [member min_size] and [member max_size]
 }
 
-## The selected [enum STRETCH_MODES] mode that the sprite will stretch to.
-var stretch_mode : STRETCH_MODES = STRETCH_MODES.STRETCH_KEEP:
+## The selected [enum STRETCH_MODES] mode that the node will stretch to.
+var stretch_mode : STRETCH_MODES = STRETCH_MODES.KEEP_RATIO:
 	set(value):
 		stretch_mode = value
 		_overwrite_scale()
 		notify_property_list_changed()
 
-## The minimum size in pixels that the sprite will scale to.
+## The minimum size in pixels that the node will scale to.
 var min_size: Vector2 = Vector2(128, 128):
 	set(value):
 		min_size = value
@@ -76,7 +51,7 @@ var min_size: Vector2 = Vector2(128, 128):
 			max_size.y = min_size.y
 		_overwrite_scale()
 
-## The maximum size in pixels that the sprite will scale to.
+## The maximum size in pixels that the node will scale to.
 var max_size: Vector2 = Vector2(128, 128):
 	set(value):
 		max_size = value
@@ -85,21 +60,6 @@ var max_size: Vector2 = Vector2(128, 128):
 		if max_size.y < min_size.y:
 			min_size.y = max_size.y
 		_overwrite_scale()
-
-#var min_side: float = 128:
-	#set(value):
-		#min_side = value
-		#if min_side > max_side:
-			#max_side = min_side
-		#_overwrite_scale()
-#
-### The maximum size in pixels that the sprite will scale to.
-#var max_side: float = 128:
-	#set(value):
-		#max_side = value
-		#if max_side < min_side:
-			#min_side = max_side
-		#_overwrite_scale()
 
 ## The same as [method Texture2D.get_size]. Also calls [method _overwrite_scale]
 ## when is set.
@@ -150,22 +110,12 @@ func _get_property_list() -> Array[Dictionary]:
 	
 	var properties : Array[Dictionary] = []
 	
-	# Arrays of keys and comma seperated strings. Used as hint_strings for
-	# editor properties
-	var bound_keys : Array = _make_keys(BOUND_MODES.keys())
-	var bound_list : String = ",".join(bound_keys)
-	
+	# Array of keys and comma seperated string. Used as hint_string for
+	# editor property
 	var stretch_keys : Array = _make_keys(STRETCH_MODES.keys())
 	var stretch_list : String = ",".join(stretch_keys)
 	
-	# add enums
-	properties.append({
-		"name": "bound_mode",
-		"type": TYPE_INT,
-		"usage": PROPERTY_USAGE_DEFAULT,
-		"hint": PROPERTY_HINT_ENUM,
-		"hint_string": bound_list,
-	})
+	# add enum
 	properties.append({
 		"name": "stretch_mode",
 		"type": TYPE_INT,
@@ -175,28 +125,26 @@ func _get_property_list() -> Array[Dictionary]:
 	})
 	
 	# add min size Vector2
-	if not bound_mode == BOUND_MODES.MAX_SIZE_OR_LESS:
-		properties.append({
-			"name": "min_size",
-			"type": TYPE_VECTOR2,
-			"usage": PROPERTY_USAGE_DEFAULT,
-			"hint_string": "suffix:px",
-		})
+	properties.append({
+		"name": "min_size",
+		"type": TYPE_VECTOR2,
+		"usage": PROPERTY_USAGE_DEFAULT,
+		"hint_string": "suffix:px",
+	})
 	
 	# add max size Vector2
-	if not bound_mode == BOUND_MODES.MIN_SIZE_OR_GREATER:
-		properties.append({
-			"name": "max_size",
-			"type": TYPE_VECTOR2,
-			"usage": PROPERTY_USAGE_DEFAULT,
-			"hint_string": "suffix:px",
-		})
+	properties.append({
+		"name": "max_size",
+		"type": TYPE_VECTOR2,
+		"usage": PROPERTY_USAGE_DEFAULT,
+		"hint_string": "suffix:px",
+	})
 	
 	return properties
 
-## Overwrites the scale of the sprite to match the desired [member bound_mode]
-## and [member stretch_mode].[br]
-## It is called automatically when [member bound_mode], [member stretch_mode], 
+## Overwrites the [member Node2D.scale] to fit within [member min_size] and
+## [member max_size] according to [member stretch_mode]. See [enum STRETCH_MODES].[br]
+## It is called automatically when [member stretch_mode], 
 ## [member min_size], [member max_size], or [member Sprite2D.texture] are set.
 func _overwrite_scale() -> void:
 	
@@ -206,102 +154,104 @@ func _overwrite_scale() -> void:
 		texture_size = texture.get_size()
 	
 	match stretch_mode:
-		STRETCH_MODES.STRETCH_SCALE:
+		STRETCH_MODES.TO_FIT:
 			_scale_mode()
-		STRETCH_MODES.STRETCH_KEEP:
+		STRETCH_MODES.KEEP_RATIO:
 			_keep_mode()
-		STRETCH_MODES.STRETCH_FIT_WIDTH:
+		STRETCH_MODES.TO_FIT_WIDTH:
 			_width_mode()
-		STRETCH_MODES.STRETCH_FIT_HEIGHT:
+		STRETCH_MODES.TO_FIT_HEIGHT:
 			_height_mode()
+	
+	if old_scale != scale:
+		if not old_scale:
+			scale_changed.emit(scale, scale)
+		else:
+			scale_changed.emit(old_scale, scale)
+		old_scale = scale
+		
 
-# TODO: fix CONTAINED_MAX_FIRST and CONTAINED_MIN_FIRST modes so that when 
-# the respective side will take priority
-
-## The sprite is scaled to fit the [member bound_mode] disregarding the
-## [member Node2D.scale]'s aspect ratio.
+## The node is scaled to fit within [member min_size] and [member max_size]
+## according to [member stretch_mode] disregarding the [member Node2D.scale]'s
+## aspect ratio.
 func _scale_mode() -> void:
 	
 	var desired := texture_size
 	
-	match bound_mode:
-		BOUND_MODES.MAX_SIZE_OR_LESS:
-			desired = desired.min(max_size)
-		BOUND_MODES.MIN_SIZE_OR_GREATER:
-			desired = desired.max(min_size)
-		_:
-			desired = Vector2(
-						clamp(desired.x, min_size.x, max_size.x),
-						clamp(desired.y, min_size.y, max_size.y)
-					  )
+	desired = Vector2(
+				clamp(desired.x, min_size.x, max_size.x),
+				clamp(desired.y, min_size.y, max_size.y)
+			  )
+	
 	scale = desired / texture_size
+	
+	return
 
-## Sets [member Node2D.size] to fit the [member bound_mode] while keeping the 
+## Sets [member Node2D.size] to fit the within [member min_size] and
+## [member max_size] according to [member stretch_mode] while keeping the 
 ## aspect ratio to [code](1, 1)[/code].
 func _keep_mode() -> void:
 	
 	var desired := texture_size
 	
-	match bound_mode:
-		BOUND_MODES.CONTAINED:
-			#if max_size.x > texture_size.x and max_size.y > texture_size.y and min_size.x < texture_size.x and min_size.y < texture_size.y:
-				#scale = Vector2(1, 1)
-				#return
-			var ratio: float = texture_size.x / texture_size.y
-			
-			var max_side : int = maxi(min_size.x, min_size.y)
-			if texture_size.x > texture_size.y:
-				desired = Vector2(max_side, max_side * ratio)
-			else:
-				desired = Vector2(max_side / ratio, max_side)
-			
-			var min_side : int = mini(max_size.x, max_size.y)
-			if texture_size.x > texture_size.y:
-				desired = Vector2(min_side, min_side * ratio)
-			else:
-				desired = Vector2(min_side / ratio, min_side)
-		BOUND_MODES.MAX_SIZE_OR_LESS:
-			if max_size.x > texture_size.x and max_size.y > texture_size.y:
-				scale = Vector2(1, 1)
-				return
-			var ratio: float = texture_size.x / texture_size.y
-			var min_side : int = mini(max_size.x, max_size.y)
-			if texture_size.x > texture_size.y:
-				desired = Vector2(min_side, min_side * ratio)
-			else:
-				desired = Vector2(min_side / ratio, min_side)
-		BOUND_MODES.MIN_SIZE_OR_GREATER:
-			if min_size.x < texture_size.x and min_size.y < texture_size.y:
-				scale = Vector2(1, 1)
-				return
-			var ratio: float = texture_size.x / texture_size.y
-			var max_side : int = maxi(min_size.x, min_size.y)
-			if texture_size.x > texture_size.y:
-				desired = Vector2(max_side, max_side * ratio)
-			else:
-				desired = Vector2(max_side / ratio, max_side)
+	# confirm that min_size < max_size on all axis. if not push error.
+	if min_size.x > max_size.y or min_size.y > max_size.x:
+		printerr("Min Size is not smaller than Max Size on both axis. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
+		return
+	
+	var ratio: float = texture_size.x / texture_size.y
+	
+	var max_of_min_side_px : int = maxi(min_size.x, min_size.y)
+	var min_of_max_side_px : int = mini(max_size.x, max_size.y)
+	
+	if (min_size.x < texture_size.x and min_size.y < texture_size.y
+		and max_size.x > texture_size.x and max_size.y > texture_size.y
+		):
+		scale = Vector2.ONE
+		return
+	
+	# limit min
+	if max_of_min_side_px > texture_size.x or max_of_min_side_px > texture_size.y:
+		if texture_size.x > texture_size.y:
+			desired = Vector2(max_of_min_side_px, max_of_min_side_px * ratio)
+		else:
+			desired = Vector2(max_of_min_side_px / ratio, max_of_min_side_px)
+	
+	# limit max
+	elif min_of_max_side_px < texture_size.x or min_of_max_side_px < texture_size.y:
+		if texture_size.x > texture_size.y:
+			desired = Vector2(min_of_max_side_px, min_of_max_side_px * ratio)
+		else:
+			desired = Vector2(min_of_max_side_px / ratio, min_of_max_side_px)
 	
 	scale = desired / texture_size
-
-## Sets [member Node2D.size.x] to fit the [member bound_mode]. Ignores height.
-func _width_mode() -> void:
-	match bound_mode:
-		BOUND_MODES.CONTAINED:
-			pass
-		BOUND_MODES.MAX_SIZE_OR_LESS:
-			pass
-		BOUND_MODES.MIN_SIZE_OR_GREATER:
-			pass
-		
-
-## Sets [member Node2D.size.y] to fit the [member bound_mode]. Ignores width.
-func _height_mode() -> void:
-	match bound_mode:
-		BOUND_MODES.CONTAINED:
-			pass
-		BOUND_MODES.MAX_SIZE_OR_LESS:
-			pass
-		BOUND_MODES.MIN_SIZE_OR_GREATER:
-			pass
-		
 	
+	return
+
+## Sets [member Node2D.size.x] to fit within [member min_size] and
+## [member max_size] according to [member stretch_mode]. Ignores height.
+func _width_mode() -> void:
+	var desired := texture_size
+	
+	desired = Vector2(
+				clamp(desired.x, min_size.x, max_size.x),
+				texture_size.y
+			  )
+	
+	scale = desired / texture_size
+	
+	return
+
+## Sets [member Node2D.size.y] to fit within [member min_size] and
+## [member max_size] according to [member stretch_mode]. Ignores width.
+func _height_mode() -> void:
+	var desired := texture_size
+	
+	desired = Vector2(
+				texture_size.x,
+				clamp(desired.y, min_size.y, max_size.y)
+			  )
+	
+	scale = desired / texture_size
+	
+	return
