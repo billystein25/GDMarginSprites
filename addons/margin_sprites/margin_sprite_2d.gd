@@ -33,18 +33,17 @@ extends Sprite2D
 #          On stretch mode {stretch_keep} the texture will be scaled to fit the bounds of both 
 #          the width and the height of the texture while keeping the aspect ratio to 1.
 
+## DEPRECATED
 ## The modes that the sprite will scale to.
 enum BOUND_MODES{
-	CONTAINED_MAX_FIRST, ## Sprite size is within [member min_size] and
+	CONTAINED, ## Sprite size is within [member min_size] and
 						 ## [member max_size]. [member max_size] takes priority.
-	CONTAINED_MIN_FIRST, ## Sprite size is within [member min_size] and
-						 ## [member max_size]. [member min_size] takes priority
 	MAX_SIZE_OR_LESS,    ## Sprite size equal to or less than [member max_size].
 	MIN_SIZE_OR_GREATER, ## Sprite size equal to or greater than [member min_size].
 }
 
 ## The selected [enum BOUND_MODES] mode that the sprite will scale to.
-var bound_mode : BOUND_MODES = BOUND_MODES.MAX_SIZE_OR_LESS:
+var bound_mode : BOUND_MODES = BOUND_MODES.CONTAINED:
 	set(value):
 		bound_mode = value
 		_overwrite_scale()
@@ -244,7 +243,7 @@ func _keep_mode() -> void:
 	var desired := texture_size
 	
 	match bound_mode:
-		BOUND_MODES.CONTAINED_MAX_FIRST:
+		BOUND_MODES.CONTAINED:
 			#if max_size.x > texture_size.x and max_size.y > texture_size.y and min_size.x < texture_size.x and min_size.y < texture_size.y:
 				#scale = Vector2(1, 1)
 				#return
@@ -261,23 +260,6 @@ func _keep_mode() -> void:
 				desired = Vector2(min_side, min_side * ratio)
 			else:
 				desired = Vector2(min_side / ratio, min_side)
-		BOUND_MODES.CONTAINED_MIN_FIRST:
-			#if max_size.x > texture_size.x and max_size.y > texture_size.y and min_size.x < texture_size.x and min_size.y < texture_size.y:
-				#scale = Vector2(1, 1)
-				#return
-			var ratio: float = texture_size.x / texture_size.y
-			
-			var min_side : int = mini(max_size.x, max_size.y)
-			if texture_size.x > texture_size.y:
-				desired = Vector2(min_side, min_side * ratio)
-			else:
-				desired = Vector2(min_side / ratio, min_side)
-			
-			var max_side : int = maxi(min_size.x, min_size.y)
-			if texture_size.x > texture_size.y:
-				desired = Vector2(max_side, max_side * ratio)
-			else:
-				desired = Vector2(max_side / ratio, max_side)
 		BOUND_MODES.MAX_SIZE_OR_LESS:
 			if max_size.x > texture_size.x and max_size.y > texture_size.y:
 				scale = Vector2(1, 1)
@@ -304,7 +286,7 @@ func _keep_mode() -> void:
 ## Sets [member Node2D.size.x] to fit the [member bound_mode]. Ignores height.
 func _width_mode() -> void:
 	match bound_mode:
-		BOUND_MODES.CONTAINED_MAX_FIRST:
+		BOUND_MODES.CONTAINED:
 			pass
 		BOUND_MODES.MAX_SIZE_OR_LESS:
 			pass
@@ -315,7 +297,7 @@ func _width_mode() -> void:
 ## Sets [member Node2D.size.y] to fit the [member bound_mode]. Ignores width.
 func _height_mode() -> void:
 	match bound_mode:
-		BOUND_MODES.CONTAINED_MIN_FIRST:
+		BOUND_MODES.CONTAINED:
 			pass
 		BOUND_MODES.MAX_SIZE_OR_LESS:
 			pass
