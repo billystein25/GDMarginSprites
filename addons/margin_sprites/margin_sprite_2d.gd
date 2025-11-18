@@ -23,15 +23,19 @@ var old_scale : Vector2
 
 ## The modes that the node will stretch to.
 enum STRETCH_MODES{
-	KEEP_RATIO,    ## The [member Node2D.scale] will be modified so that it will
-				   ## keep its ratio to [code](1, 1)[/code].
-	TO_FIT,        ## The [member Node2D.scale] will be modified to fit within
-				   ## [member min_size] and [member max_size] disregarding
-				   ## its Node2D.scale ratio.
-	TO_FIT_WIDTH,  ## Only [member Node2D.scale.x] will be modified to fit within
-				   ## [member min_size] and [member max_size]
-	TO_FIT_HEIGHT, ## Only [member Node2D.scale.y] will be modified to fit within
-				   ## [member min_size] and [member max_size]
+	## The [member Node2D.scale] will be modified so that it will keep its
+	## ratio to [code](1, 1)[/code].
+	KEEP_RATIO, 
+	## The [member Node2D.scale] will be modified to fit within
+	## [member min_size] and [member max_size] disregarding
+	## its Node2D.scale ratio.   
+	TO_FIT,
+	## Only [member Node2D.scale.x] will be modified to fit within
+	## [member min_size] and [member max_size].
+	TO_FIT_WIDTH,
+	## Only [member Node2D.scale.y] will be modified to fit within
+	## [member min_size] and [member max_size].
+	TO_FIT_HEIGHT,
 }
 
 ## The selected [enum STRETCH_MODES] mode that the node will stretch to.
@@ -73,7 +77,7 @@ func _init() -> void:
 
 func _on_texture_change() -> void:
 	texture_size = texture.get_size()
-	print(self, " new texture_size: ", texture_size)
+	#print(self, " new texture_size: ", texture_size)
 
 ## Converts the [String] [param n] from screaming snake case to pascal case
 ## except words are seperated with spaces.
@@ -255,3 +259,8 @@ func _height_mode() -> void:
 	scale = desired / texture_size
 	
 	return
+
+## Forces [method _overwrite_scale] to run even if [member stretch_mode], 
+## [member min_size], [member max_size], or [member Sprite2D.texture] are not set.
+func force_overwrite_scale() -> void:
+	_overwrite_scale()
