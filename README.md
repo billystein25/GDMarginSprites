@@ -18,14 +18,14 @@ keeping the (1, 1) ratio of your texture, modifying only one of the two axis, or
 modifying both disregarding the ratio.[br]
 
 ## Usecase
-This addon is not a substitute for properly sizing texture resources and it is
+This plugin is not a substitute for properly sizing texture resources and it is
 recommended that it is not used as such. It is intended to be used in gamejams and
 other events where time is limited or you are unable to properly size your textures.
 
 ## Documentation
 All the implemented members are well documented within the code itself but here is
 a quick rundown.[br]
-This addon works by modifying Node2D's and Node3D's scale property. As such, modifying
+This plugin works by modifying Node2D's and Node3D's scale property. As such, modifying
 it manually is meaningless. That said if you manually set the scale at runtime the 
 classes will respect your modification and will not overwrite it again. If you need
 for whatever reason to force the overwrite algorithm to run you can call
