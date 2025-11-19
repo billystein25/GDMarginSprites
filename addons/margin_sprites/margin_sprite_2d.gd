@@ -1,25 +1,39 @@
 ## An extention of Sprite2D that allows for precise scaling to a specified size.
 ## in pixels.
 ##
-## NOTE: [member Node2D.scale] is set by this class and thus should not be set
-## by the user as it will be overwritten.[br]
-## NOTE: Changes the local [member Node2D.scale], not
+## An extention of Sprite2D with added functionality allowing for presice scaling
+## in pixels. You set your desired minimum and maximum size through the
+## [member min_size] and [member max_size] properties and the sprite will
+## automatically scale to fit these bounds while respecting the set
+## [member stretch_mode].[br]
+## NOTE: [member Node2D.scale] is set by this class and thus there is no reason
+## to be set by the user as it will be overwritten.[br]
+## NOTE: This class changes the local [member Node2D.scale], not
 ## [member Node2D.global_scale].[br]
+## NOTE: This class does not account for a [member Node2D.scew] value other than
+## [code]0.0[/code]. The node will only be scaled according to its regular size
+## as a rentagle texture.
 @tool
 class_name MarginSprite2D
 extends Sprite2D
 
+#region global-properties
+
 ## Emitted when the [member Node2D.scale] is set and new [member Node2D.scale]
-## is different to [member old_scale].[br]
-## NOTE: The first time [member Node2D.scale] is set [member old_scale] is not
+## is different to [member _old_scale].[br]
+## NOTE: The first time [member Node2D.scale] is set [member _old_scale] is not
 ## set yet and has value of [code]<null>[/code]. In that case both [param old]
 ## and [param new] will have a value of [member Node2D.scale].
-signal scale_changed(old: Vector2, new: Vector2)
+signal scale_changed(old_scale: Vector2, new_scale: Vector2)
+
+## Emitted every time [method _overwrite_scale] is called even if the
+## [member Node2D.scale] didn't change.
+signal overwrite_scale_ran(new_scale: Vector2)
 
 ## Set to [member Node2D.scale] whenever it is set through
 ## [method _overwrite_scale]. Used to determine of the scale has been altered to
 ## emit [signal scale_changed].
-var old_scale : Vector2
+var _old_scale : Vector2
 
 ## The modes that the node will stretch to.
 enum STRETCH_MODES{
@@ -30,11 +44,15 @@ enum STRETCH_MODES{
 	## [member min_size] and [member max_size] disregarding
 	## its Node2D.scale ratio.   
 	TO_FIT,
-	## Only [member Node2D.scale.x] will be modified to fit within
-	## [member min_size] and [member max_size].
+	## Only the [code]x[/code] value of [member Node2D.scale] will be set through
+	## the algorithm to fit within [member min_size] and [member max_size].
+	## While the [code]y[/code] value is set to the [code]x[/code] value
+	## of [member texture_size].
 	TO_FIT_WIDTH,
-	## Only [member Node2D.scale.y] will be modified to fit within
-	## [member min_size] and [member max_size].
+	## Only the [code]y[/code] value of [member Node2D.scale] will be set through
+	## the algorithm to fit within [member min_size] and [member max_size].
+	## While the [code]x[/code] value is set to the [code]y[/code] value
+	## of [member texture_size].
 	TO_FIT_HEIGHT,
 }
 
@@ -65,50 +83,21 @@ var max_size: Vector2 = Vector2(128, 128):
 			min_size.y = max_size.y
 		_overwrite_scale()
 
-## The same as [method Texture2D.get_size]. Also calls [method _overwrite_scale]
-## when is set.
+## The same as the [method Texture2D.get_size] method of
+## [member Sprite2D.texture]. Also calls [method _overwrite_scale] when is set.
 var texture_size: Vector2:
 	set(value):
 		texture_size = value
 		_overwrite_scale()
 
+#endregion
+
+#region virtual-methods
+
 func _init() -> void:
-	texture_changed.connect(_on_texture_change)
-
-func _on_texture_change() -> void:
-	texture_size = texture.get_size()
-	#print(self, " new texture_size: ", texture_size)
-
-## Converts the [String] [param n] from screaming snake case to pascal case
-## except words are seperated with spaces.
-## [codeblock]
-## var s : String = "MY_STRING"
-## print(string_screaming_snake_to_normal(s)) # Prints "My String"
-## [/codeblock]
-func _string_screaming_snake_to_normal(n : String) -> String:
-	
-	var positions : Array[int] = []
-	n = n.to_pascal_case()
-	# find the positions that need a space to be added.
-	for letter in n.length():
-		if n[letter] == n[letter].capitalize():
-			positions.append(letter)
-	# count how many spaces have been added and offset the insert by that.
-	var count : int = 0
-	for pos in positions:
-		n = n.insert(pos + count, " ")
-		count += 1
-	return n
-
-## Converts an [Array] of keys making use of
-## [method _string_screaming_snake_to_normal] to ensure they are in proper case.
-## Used to set [member bound_list] and [member scaleList] which are used as
-## hint_strings for the editor.
-func _make_keys(arr : Array) -> Array:
-	var new_arr : Array = []
-	for key in arr:
-		new_arr.append(_string_screaming_snake_to_normal(key))
-	return new_arr
+	texture_changed.connect(
+		func(): texture_size = texture.get_size()
+	)
 
 func _get_property_list() -> Array[Dictionary]:
 	
@@ -146,8 +135,45 @@ func _get_property_list() -> Array[Dictionary]:
 	
 	return properties
 
+#endregion
+
+#region private-methods
+
+## Converts the [String] [param n] from screaming snake case to pascal case
+## except words are seperated with spaces. Used by [method _make_keys] to
+## properly display the enum key names of [enum STRETCH_MODES] in the inspector.
+## [codeblock]
+## var s : String = "MY_STRING"
+## print(string_screaming_snake_to_normal(s)) # Prints "My String"
+## [/codeblock]
+func _string_screaming_snake_to_normal(n : String) -> String:
+	
+	var positions : Array[int] = []
+	n = n.to_pascal_case()
+	# find the positions that need a space to be added.
+	for letter in n.length():
+		if n[letter] == n[letter].capitalize():
+			positions.append(letter)
+	# count how many spaces have been added and offset the insert by that.
+	var count : int = 0
+	for pos in positions:
+		n = n.insert(pos + count, " ")
+		count += 1
+	return n
+
+## Converts an [Array] of keys making use of
+## [method _string_screaming_snake_to_normal] to ensure they are in proper case.
+## Used to set [member bound_list] and [member scaleList] which are used as
+## hint_strings for the editor.
+func _make_keys(arr : Array) -> Array:
+	var new_arr : Array = []
+	for key in arr:
+		new_arr.append(_string_screaming_snake_to_normal(key))
+	return new_arr
+
 ## Overwrites the [member Node2D.scale] to fit within [member min_size] and
-## [member max_size] according to [member stretch_mode]. See [enum STRETCH_MODES].[br]
+## [member max_size] according to [member stretch_mode].
+## See [enum STRETCH_MODES].[br]
 ## It is called automatically when [member stretch_mode], 
 ## [member min_size], [member max_size], or [member Sprite2D.texture] are set.
 func _overwrite_scale() -> void:
@@ -167,13 +193,13 @@ func _overwrite_scale() -> void:
 		STRETCH_MODES.TO_FIT_HEIGHT:
 			_height_mode()
 	
-	if old_scale != scale:
-		if not old_scale:
+	if _old_scale != scale:
+		if not _old_scale:
 			scale_changed.emit(scale, scale)
 		else:
-			scale_changed.emit(old_scale, scale)
-		old_scale = scale
-		
+			scale_changed.emit(_old_scale, scale)
+		_old_scale = scale
+	overwrite_scale_ran.emit(scale)
 
 ## The node is scaled to fit within [member min_size] and [member max_size]
 ## according to [member stretch_mode] disregarding the [member Node2D.scale]'s
@@ -232,8 +258,10 @@ func _keep_mode() -> void:
 	
 	return
 
-## Sets [member Node2D.size.x] to fit within [member min_size] and
-## [member max_size] according to [member stretch_mode]. Ignores height.
+## Sets the [code]x[/code] value of [member Node2D.size] to fit within
+## [member min_size] and [member max_size] according to [member stretch_mode].
+## The [code]x[/code] value is set to the [code]x[/code] value of
+## [member texture_size].
 func _width_mode() -> void:
 	var desired := texture_size
 	
@@ -246,8 +274,10 @@ func _width_mode() -> void:
 	
 	return
 
-## Sets [member Node2D.size.y] to fit within [member min_size] and
-## [member max_size] according to [member stretch_mode]. Ignores width.
+## Sets the [code]y[/code] value of [member Node2D.size] to fit within
+## [member min_size] and [member max_size] according to [member stretch_mode].
+## The [code]y[/code] value is set to the [code]y[/code] value of
+## [member texture_size].
 func _height_mode() -> void:
 	var desired := texture_size
 	
@@ -260,7 +290,13 @@ func _height_mode() -> void:
 	
 	return
 
+#endregion
+
+#region global-methods
+
 ## Forces [method _overwrite_scale] to run even if [member stretch_mode], 
 ## [member min_size], [member max_size], or [member Sprite2D.texture] are not set.
 func force_overwrite_scale() -> void:
 	_overwrite_scale()
+
+#endregion
