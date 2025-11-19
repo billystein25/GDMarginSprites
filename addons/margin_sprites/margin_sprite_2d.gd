@@ -144,7 +144,7 @@ func _get_property_list() -> Array[Dictionary]:
 ## properly display the enum key names of [enum STRETCH_MODES] in the inspector.
 ## [codeblock]
 ## var s : String = "MY_STRING"
-## print(string_screaming_snake_to_normal(s)) # Prints "My String"
+## print(_string_screaming_snake_to_normal(s)) # Prints "My String"
 ## [/codeblock]
 func _string_screaming_snake_to_normal(n : String) -> String:
 	
