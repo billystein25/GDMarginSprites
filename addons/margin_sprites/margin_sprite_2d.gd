@@ -6,11 +6,11 @@
 ## [member min_size] and [member max_size] properties and the sprite will
 ## automatically scale to fit these bounds while respecting the set
 ## [member stretch_mode].[br]
-## NOTE: [member Node2D.scale] is set by this class and thus there is no reason
+## [b]Note[/b]: [member Node2D.scale] is set by this class and thus there is no reason
 ## to be set by the user as it will be overwritten.[br]
-## NOTE: This class changes the local [member Node2D.scale], not
+## [b]Note[/b]: This class changes the local [member Node2D.scale], not
 ## [member Node2D.global_scale].[br]
-## NOTE: This class does not account for a [member Node2D.scew] value other than
+## [b]Note[/b]: This class does not account for a [member Node2D.scew] value other than
 ## [code]0.0[/code]. The node will only be scaled according to its regular size
 ## as a rentagle texture.
 @tool
@@ -21,7 +21,7 @@ extends Sprite2D
 
 ## Emitted when the [member Node2D.scale] is set and new [member Node2D.scale]
 ## is different to [member _old_scale].[br]
-## NOTE: The first time [member Node2D.scale] is set [member _old_scale] is not
+## [b]Note[/b]: The first time [member Node2D.scale] is set [member _old_scale] is not
 ## set yet and has value of [code]<null>[/code]. In that case both [param old]
 ## and [param new] will have a value of [member Node2D.scale].
 signal scale_changed(old_scale: Vector2, new_scale: Vector2)
