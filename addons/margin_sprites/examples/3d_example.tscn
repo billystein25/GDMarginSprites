@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://xqcig8ah6sxv"]
+
+[ext_resource type="Texture2D" uid="uid://bppfienrhv6tq" path="res://icon.svg" id="1_npsk3"]
+[ext_resource type="Script" uid="uid://bk6gigavy5v6y" path="res://addons/margin_sprites/margin_sprite_3d.gd" id="2_6sctd"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MarginSprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.78125, 0, 0, 0, 0.78125, 0, 0, 0, 1, 0, 0, 0)
+texture = ExtResource("1_npsk3")
+script = ExtResource("2_6sctd")
+metadata/_custom_type_script = "uid://bk6gigavy5v6y"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9432916, 0, 0)
+texture = ExtResource("1_npsk3")

@@ -57,14 +57,14 @@ enum STRETCH_MODES{
 }
 
 ## The selected [enum STRETCH_MODES] mode that the node will stretch to.
-var stretch_mode : STRETCH_MODES = STRETCH_MODES.KEEP_RATIO:
+@export var stretch_mode : STRETCH_MODES = STRETCH_MODES.KEEP_RATIO:
 	set(value):
 		stretch_mode = value
 		_overwrite_scale()
 		notify_property_list_changed()
 
 ## The minimum size in pixels that the node will scale to.
-var min_size: Vector2 = Vector2(128, 128):
+@export_custom(PROPERTY_HINT_NONE, "suffix:px") var min_size: Vector2 = Vector2(128, 128):
 	set(value):
 		min_size = value
 		if min_size.x > max_size.x:
@@ -74,7 +74,7 @@ var min_size: Vector2 = Vector2(128, 128):
 		_overwrite_scale()
 
 ## The maximum size in pixels that the node will scale to.
-var max_size: Vector2 = Vector2(128, 128):
+@export_custom(PROPERTY_HINT_NONE, "suffix:px") var max_size: Vector2 = Vector2(128, 128):
 	set(value):
 		max_size = value
 		if max_size.x < min_size.x:
@@ -99,77 +99,9 @@ func _init() -> void:
 		func(): texture_size = texture.get_size()
 	)
 
-func _get_property_list() -> Array[Dictionary]:
-	
-	var properties : Array[Dictionary] = []
-	
-	# Array of keys and comma seperated string. Used as hint_string for
-	# editor property
-	var stretch_keys : Array = _make_keys(STRETCH_MODES.keys())
-	var stretch_list : String = ",".join(stretch_keys)
-	
-	# add enum
-	properties.append({
-		"name": "stretch_mode",
-		"type": TYPE_INT,
-		"usage": PROPERTY_USAGE_DEFAULT,
-		"hint": PROPERTY_HINT_ENUM,
-		"hint_string": stretch_list,
-	})
-	
-	# add min size Vector2
-	properties.append({
-		"name": "min_size",
-		"type": TYPE_VECTOR2,
-		"usage": PROPERTY_USAGE_DEFAULT,
-		"hint_string": "suffix:px",
-	})
-	
-	# add max size Vector2
-	properties.append({
-		"name": "max_size",
-		"type": TYPE_VECTOR2,
-		"usage": PROPERTY_USAGE_DEFAULT,
-		"hint_string": "suffix:px",
-	})
-	
-	return properties
-
 #endregion
 
 #region private-methods
-
-## Converts the [String] [param n] from screaming snake case to pascal case
-## except words are seperated with spaces. Used by [method _make_keys] to
-## properly display the enum key names of [enum STRETCH_MODES] in the inspector.
-## [codeblock]
-## var s : String = "MY_STRING"
-## print(_string_screaming_snake_to_normal(s)) # Prints "My String"
-## [/codeblock]
-func _string_screaming_snake_to_normal(n : String) -> String:
-	
-	var positions : Array[int] = []
-	n = n.to_pascal_case()
-	# find the positions that need a space to be added.
-	for letter in n.length():
-		if n[letter] == n[letter].capitalize():
-			positions.append(letter)
-	# count how many spaces have been added and offset the insert by that.
-	var count : int = 0
-	for pos in positions:
-		n = n.insert(pos + count, " ")
-		count += 1
-	return n
-
-## Converts an [Array] of keys making use of
-## [method _string_screaming_snake_to_normal] to ensure they are in proper case.
-## Used to set [member bound_list] and [member scaleList] which are used as
-## hint_strings for the editor.
-func _make_keys(arr : Array) -> Array:
-	var new_arr : Array = []
-	for key in arr:
-		new_arr.append(_string_screaming_snake_to_normal(key))
-	return new_arr
 
 ## Overwrites the [member Node2D.scale] to fit within [member min_size] and
 ## [member max_size] according to [member stretch_mode].
@@ -183,15 +115,19 @@ func _overwrite_scale() -> void:
 	if not texture_size:
 		texture_size = texture.get_size()
 	
+	var desired : Vector2
+	
 	match stretch_mode:
 		STRETCH_MODES.TO_FIT:
-			_scale_mode()
+			desired = _scale_mode()
 		STRETCH_MODES.KEEP_RATIO:
-			_keep_mode()
+			desired = _keep_mode()
 		STRETCH_MODES.TO_FIT_WIDTH:
-			_width_mode()
+			desired = _width_mode()
 		STRETCH_MODES.TO_FIT_HEIGHT:
-			_height_mode()
+			desired = _height_mode()
+	
+	scale = desired / texture_size
 	
 	if _old_scale != scale:
 		if not _old_scale:
@@ -204,7 +140,7 @@ func _overwrite_scale() -> void:
 ## The node is scaled to fit within [member min_size] and [member max_size]
 ## according to [member stretch_mode] disregarding the [member Node2D.scale]'s
 ## aspect ratio.
-func _scale_mode() -> void:
+func _scale_mode() -> Vector2:
 	
 	var desired := texture_size
 	
@@ -213,21 +149,22 @@ func _scale_mode() -> void:
 				clamp(desired.y, min_size.y, max_size.y)
 			  )
 	
-	scale = desired / texture_size
-	
-	return
+	return desired
 
 ## Sets [member Node2D.size] to fit the within [member min_size] and
 ## [member max_size] according to [member stretch_mode] while keeping the 
 ## aspect ratio to [code](1, 1)[/code].
-func _keep_mode() -> void:
+func _keep_mode() -> Vector2:
 	
 	var desired := texture_size
 	
 	# confirm that min_size < max_size on all axis. if not push error.
-	if min_size.x > max_size.y or min_size.y > max_size.x:
-		printerr("Min Size is not smaller than Max Size on both axis. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
-		return
+	if min_size.x > max_size.y:
+		printerr("min_size.x is greater than max_size.y. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
+		return texture_size * scale
+	if min_size.y > max_size.x:
+		printerr("min_size.y is greater than max_size.x. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
+		return texture_size * scale
 	
 	var ratio: float = texture_size.x / texture_size.y
 	
@@ -238,7 +175,7 @@ func _keep_mode() -> void:
 		and max_size.x > texture_size.x and max_size.y > texture_size.y
 		):
 		scale = Vector2.ONE
-		return
+		return texture_size * scale
 	
 	# limit min
 	if max_of_min_side_px > texture_size.x or max_of_min_side_px > texture_size.y:
@@ -254,15 +191,13 @@ func _keep_mode() -> void:
 		else:
 			desired = Vector2(min_of_max_side_px / ratio, min_of_max_side_px)
 	
-	scale = desired / texture_size
-	
-	return
+	return desired
 
 ## Sets the [code]x[/code] value of [member Node2D.size] to fit within
 ## [member min_size] and [member max_size] according to [member stretch_mode].
 ## The [code]x[/code] value is set to the [code]x[/code] value of
 ## [member texture_size].
-func _width_mode() -> void:
+func _width_mode() -> Vector2:
 	var desired := texture_size
 	
 	desired = Vector2(
@@ -270,15 +205,13 @@ func _width_mode() -> void:
 				texture_size.y
 			  )
 	
-	scale = desired / texture_size
-	
-	return
+	return desired
 
 ## Sets the [code]y[/code] value of [member Node2D.size] to fit within
 ## [member min_size] and [member max_size] according to [member stretch_mode].
 ## The [code]y[/code] value is set to the [code]y[/code] value of
 ## [member texture_size].
-func _height_mode() -> void:
+func _height_mode() -> Vector2:
 	var desired := texture_size
 	
 	desired = Vector2(
@@ -286,9 +219,7 @@ func _height_mode() -> void:
 				clamp(desired.y, min_size.y, max_size.y)
 			  )
 	
-	scale = desired / texture_size
-	
-	return
+	return desired
 
 #endregion
 
