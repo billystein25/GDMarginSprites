@@ -1,36 +1,36 @@
-## An extention of Sprite2D that allows for precise scaling to a specified size.
+## An extention of Sprite3D that allows for precise scaling to a specified size.
 ## in pixels.
 ##
-## An extention of Sprite2D with added functionality allowing for presice scaling
+## An extention of Sprite3D with added functionality allowing for presice scaling
 ## in pixels. You set your desired minimum and maximum size through the
 ## [member min_size] and [member max_size] properties and the sprite will
 ## automatically scale to fit these bounds while respecting the set
 ## [member stretch_mode].[br]
-## [b]Note[/b]: [member Node2D.scale] is set by this class and thus there is no reason
+## [b]Note[/b]: [member Node3D.scale] is set by this class and thus there is no reason
 ## to be set by the user as it will be overwritten.[br]
-## [b]Note[/b]: This class changes the local [member Node2D.scale], not
-## [member Node2D.global_scale].[br]
-## [b]Note[/b]: This class does not account for a [member Node2D.scew] value other than
-## [code]0.0[/code]. The node will only be scaled according to its regular size
-## as a rentagle texture.
+## [b]Note[/b]: This class changes the local [member Node3D.scale], not
+## [member Node3D.global_scale].[br]
+## [b]Note[/b]: This class does not account for [member Node3D.scew] or
+## [member Node3D.rotation]. The node will only be scaled according to its regular size
+## as a rectangle texture.
 @tool
 class_name MarginSprite3D
 extends Sprite3D
 
 #region global-properties
 
-## Emitted when the [member Node2D.scale] is set and new [member Node2D.scale]
+## Emitted when the [member Node3D.scale] is set and new [member Node3D.scale]
 ## is different to [member _old_scale].[br]
-## [b]Note[/b]: The first time [member Node2D.scale] is set [member _old_scale] is not
+## [b]Note[/b]: The first time [member Node3D.scale] is set [member _old_scale] is not
 ## set yet and has value of [code]<null>[/code]. In that case both [param old]
-## and [param new] will have a value of [member Node2D.scale].
+## and [param new] will have a value of [member Node3D.scale].
 signal scale_changed(old_scale: Vector2, new_scale: Vector2)
 
 ## Emitted every time [method _overwrite_scale] is called even if the
-## [member Node2D.scale] didn't change.
+## [member Node3D.scale] didn't change.
 signal overwrite_scale_ran(new_scale: Vector2)
 
-## Set to [member Node2D.scale] whenever it is set through
+## Set to [member Node3D.scale] whenever it is set through
 ## [method _overwrite_scale]. Used to determine of the scale has been altered to
 ## emit [signal scale_changed].
 var _old_scale : Vector2
@@ -47,19 +47,19 @@ var _node_is_ready : bool = false:
 
 ## The modes that the node will stretch to.
 enum STRETCH_MODES{
-	## The [member Node2D.scale] will be modified so that it will keep its
+	## The [member Node3D.scale] will be modified so that it will keep its
 	## ratio to [code](1, 1)[/code].
 	KEEP_RATIO, 
-	## The [member Node2D.scale] will be modified to fit within
+	## The [member Node3D.scale] will be modified to fit within
 	## [member min_size] and [member max_size] disregarding
-	## its Node2D.scale ratio.   
+	## its Node3D.scale ratio.   
 	TO_FIT,
-	## Only the [code]x[/code] value of [member Node2D.scale] will be set through
+	## Only the [code]x[/code] value of [member Node3D.scale] will be set through
 	## the algorithm to fit within [member min_size] and [member max_size].
 	## While the [code]y[/code] value is set to the [code]x[/code] value
 	## of [member texture_size].
 	TO_FIT_WIDTH,
-	## Only the [code]y[/code] value of [member Node2D.scale] will be set through
+	## Only the [code]y[/code] value of [member Node3D.scale] will be set through
 	## the algorithm to fit within [member min_size] and [member max_size].
 	## While the [code]x[/code] value is set to the [code]y[/code] value
 	## of [member texture_size].
@@ -100,13 +100,17 @@ enum STRETCH_MODES{
 ## The size of the texture translated to meters in 3D. The ratio on Godot is
 ## [code]100[/code] equals [code]1[/code] meters. This value is the same as
 ## [code]Texture2D.get_size() / 100[/code]. Also calls [method _overwrite_scale]
-## when is set.
+## when it is set.
 var texture_size: Vector2:
 	set(value):
 		texture_size = value / 100
 		if _node_is_ready:
 			_overwrite_scale()
 
+## The desired 2D scale. Since the z axis doesn't matter with 3D sprites the
+## algorithm runs in 2D and sets this property. Then through a setter
+## [Node3D.scale] is set to [code]Vector3(scale_2d.x, scale_2d.y, scale.z)[/code].
+## So the z axis isn't affected.
 var scale_2d := Vector2.ONE:
 	set(value):
 		scale_2d = value
@@ -132,11 +136,11 @@ func _init() -> void:
 
 #region private-methods
 
-## Overwrites the [member Node2D.scale] to fit within [member min_size] and
+## Overwrites the [member Node3D.scale] to fit within [member min_size] and
 ## [member max_size] according to [member stretch_mode].
 ## See [enum STRETCH_MODES].[br]
 ## It is called automatically when [member stretch_mode], 
-## [member min_size], [member max_size], or [member Sprite2D.texture] are set.
+## [member min_size], [member max_size], or [member Sprite3D.texture] are set.
 func _overwrite_scale() -> void:
 	
 	if not texture:
@@ -167,7 +171,7 @@ func _overwrite_scale() -> void:
 	overwrite_scale_ran.emit(scale)
 
 ## The node is scaled to fit within [member min_size] and [member max_size]
-## according to [member stretch_mode] disregarding the [member Node2D.scale]'s
+## according to [member stretch_mode] disregarding the [member Node3D.scale]'s
 ## aspect ratio.
 func _scale_mode() -> Vector2:
 	
@@ -179,7 +183,7 @@ func _scale_mode() -> Vector2:
 	
 	return desired
 
-## Sets [member Node2D.size] to fit the within [member min_size] and
+## Sets [member Node3D.size] to fit the within [member min_size] and
 ## [member max_size] according to [member stretch_mode] while keeping the 
 ## aspect ratio to [code](1, 1)[/code].
 func _keep_mode() -> Vector2:
@@ -220,7 +224,7 @@ func _keep_mode() -> Vector2:
 			desired = Vector2(min_of_max_side_px / ratio, min_of_max_side_px)
 	return desired
 
-## Sets the [code]x[/code] value of [member Node2D.size] to fit within
+## Sets the [code]x[/code] value of [member Node3D.size] to fit within
 ## [member min_size] and [member max_size] according to [member stretch_mode].
 ## The [code]x[/code] value is set to the [code]x[/code] value of
 ## [member texture_size].
@@ -234,7 +238,7 @@ func _width_mode() -> Vector2:
 	
 	return desired
 
-## Sets the [code]y[/code] value of [member Node2D.size] to fit within
+## Sets the [code]y[/code] value of [member Node3D.size] to fit within
 ## [member min_size] and [member max_size] according to [member stretch_mode].
 ## The [code]y[/code] value is set to the [code]y[/code] value of
 ## [member texture_size].
@@ -253,7 +257,7 @@ func _height_mode() -> Vector2:
 #region global-methods
 
 ## Forces [method _overwrite_scale] to run even if [member stretch_mode], 
-## [member min_size], [member max_size], or [member Sprite2D.texture] are not set.
+## [member min_size], [member max_size], or [member Sprite3D.texture] are not set.
 func force_overwrite_scale() -> void:
 	_overwrite_scale()
 

@@ -10,9 +10,9 @@
 ## to be set by the user as it will be overwritten.[br]
 ## [b]Note[/b]: This class changes the local [member Node2D.scale], not
 ## [member Node2D.global_scale].[br]
-## [b]Note[/b]: This class does not account for a [member Node2D.scew] value other than
-## [code]0.0[/code]. The node will only be scaled according to its regular size
-## as a rentagle texture.
+## [b]Note[/b]: This class does not account for [member Node2D.scew] or
+## [member Node2D.rotation]. The node will only be scaled according to its regular size
+## as a rectangle texture.
 @tool
 class_name MarginSprite2D
 extends Sprite2D
@@ -98,7 +98,7 @@ enum STRETCH_MODES{
 		_overwrite_scale()
 
 ## The same as the [method Texture2D.get_size] method of
-## [member Sprite2D.texture]. Also calls [method _overwrite_scale] when is set.
+## [member Sprite2D.texture]. Also calls [method _overwrite_scale] when it is set.
 var texture_size: Vector2:
 	set(value):
 		texture_size = value
