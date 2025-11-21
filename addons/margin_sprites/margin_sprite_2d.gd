@@ -35,6 +35,16 @@ signal overwrite_scale_ran(new_scale: Vector2)
 ## emit [signal scale_changed].
 var _old_scale : Vector2
 
+## Is set to true when the node is ready. Used to prevent min size and max size
+## setters from messing with the values while the node is constructed and they
+## aren't fully loaded. Once it gets sets to [code]true[/code] it runs the
+## [method _overwrite_scale] method.
+var _node_is_ready : bool = false:
+	set(value):
+		_node_is_ready = value
+		if _node_is_ready:
+			_overwrite_scale()
+
 ## The modes that the node will stretch to.
 enum STRETCH_MODES{
 	## The [member Node2D.scale] will be modified so that it will keep its
@@ -60,13 +70,15 @@ enum STRETCH_MODES{
 @export var stretch_mode : STRETCH_MODES = STRETCH_MODES.KEEP_RATIO:
 	set(value):
 		stretch_mode = value
-		_overwrite_scale()
-		notify_property_list_changed()
+		if _node_is_ready:
+			_overwrite_scale()
 
 ## The minimum size in pixels that the node will scale to.
 @export_custom(PROPERTY_HINT_NONE, "suffix:px") var min_size: Vector2 = Vector2(128, 128):
 	set(value):
 		min_size = value
+		if not _node_is_ready:
+			return
 		if min_size.x > max_size.x:
 			max_size.x = min_size.x
 		if min_size.y > max_size.y:
@@ -77,6 +89,8 @@ enum STRETCH_MODES{
 @export_custom(PROPERTY_HINT_NONE, "suffix:px") var max_size: Vector2 = Vector2(128, 128):
 	set(value):
 		max_size = value
+		if not _node_is_ready:
+			return
 		if max_size.x < min_size.x:
 			min_size.x = max_size.x
 		if max_size.y < min_size.y:
@@ -88,16 +102,25 @@ enum STRETCH_MODES{
 var texture_size: Vector2:
 	set(value):
 		texture_size = value
-		_overwrite_scale()
+		if _node_is_ready:
+			_overwrite_scale()
 
 #endregion
 
 #region virtual-methods
 
 func _init() -> void:
+	if not texture_size and texture:
+		texture_size = texture.get_size()
+	
 	texture_changed.connect(
 		func(): texture_size = texture.get_size()
 	)
+	
+	ready.connect(
+		func(): _node_is_ready = true
+	)
+	
 
 #endregion
 
@@ -109,6 +132,8 @@ func _init() -> void:
 ## It is called automatically when [member stretch_mode], 
 ## [member min_size], [member max_size], or [member Sprite2D.texture] are set.
 func _overwrite_scale() -> void:
+	
+	prints(self, "algo is running", _node_is_ready)
 	
 	if not texture:
 		return
@@ -168,8 +193,8 @@ func _keep_mode() -> Vector2:
 	
 	var ratio: float = texture_size.x / texture_size.y
 	
-	var max_of_min_side_px : int = maxi(min_size.x, min_size.y)
-	var min_of_max_side_px : int = mini(max_size.x, max_size.y)
+	var max_of_min_side_px : float = maxf(min_size.x, min_size.y)
+	var min_of_max_side_px : float = minf(max_size.x, max_size.y)
 	
 	if (min_size.x < texture_size.x and min_size.y < texture_size.y
 		and max_size.x > texture_size.x and max_size.y > texture_size.y

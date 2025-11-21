@@ -1,16 +1,143 @@
-[gd_scene load_steps=3 format=3 uid="uid://xqcig8ah6sxv"]
+[gd_scene load_steps=10 format=4 uid="uid://xqcig8ah6sxv"]
 
-[ext_resource type="Texture2D" uid="uid://bppfienrhv6tq" path="res://icon.svg" id="1_npsk3"]
+[ext_resource type="Texture2D" uid="uid://cldskyr46o236" path="res://addons/margin_sprites/examples/128_128.jpg" id="1_npsk3"]
 [ext_resource type="Script" uid="uid://bk6gigavy5v6y" path="res://addons/margin_sprites/margin_sprite_3d.gd" id="2_6sctd"]
+[ext_resource type="Script" uid="uid://s4wsxda5fsca" path="res://addons/margin_sprites/examples/3d_ex_2.gd" id="3_k2vod"]
+[ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/examples/128_256.jpg" id="4_yu1y5"]
+[ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/examples/256_128.jpg" id="5_ehjfc"]
 
-[node name="Node3D" type="Node3D"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k2vod"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 
-[node name="MarginSprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.78125, 0, 0, 0, 0.78125, 0, 0, 0, 1, 0, 0, 0)
+[sub_resource type="Sky" id="Sky_yu1y5"]
+sky_material = SubResource("ProceduralSkyMaterial_k2vod")
+
+[sub_resource type="Environment" id="Environment_ehjfc"]
+background_mode = 2
+sky = SubResource("Sky_yu1y5")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_j4f66"]
+_surfaces = [{
+"aabb": AABB(-10, -1, -10, 20, 10, 20),
+"attribute_data": PackedByteArray("AACAPwAAAAAAAAAAAAAAAAAAgD8AAIA/AACAPwAAgD/NzCw/AABAPwAAAAAAAIA/AACAPwAAAAAAAAAAAAAAAAAAgD8AAIA/AACAPwAAgD/NzCw/AACAPs3MLD8AAEA/AACAPwAAAAAAAAAAAAAAAAAAgD8AAIA/AACAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAgD/NzCw/AABAPwAAID8AAEA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AACA/AABAPwAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAM3MLD8AAIA+AACAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AACAPwAAAAAAACA/AACAPs3MLD8AAIA+AACAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AACAPwAAAAAAAAAAAAAAAAAAID8AAIA+AAAAAAAAAAAAACA/AABAPwAAID8AAIA+AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD9mZmY/AACAP2ZmZj8AAAAAAACAPwAAgD8AAIA/zczMPQAAAADNzMw9AAAAAAAAAAAAAAAAAACAP2ZmZj8AAAAAAACAPwAAAAAAAAAAAAAAAAAAgD9mZmY/AACAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAZmZmPwAAgD9mZmY/AAAAAAAAgD9mZmY/AACAP2ZmZj8AAAAAAACAPwAAgD8AAAAAzczMPQAAAAAAAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD9mZmY/AAAAAAAAAAAAAAAA"),
+"format": 34359738391,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 84,
+"vertex_data": PackedByteArray("AAAgwQAAgL8AACDBAAAgwQAAAAAAACDBAAAgwQAAgL8AACBBAAAgwQAAAAAAACDBAACgwAAAAAAAAGDAAAAgwQAAAAAAACBBAAAgwQAAgL8AACDBAAAgQQAAgL8AACDBAAAgwQAAAAAAACDBAAAgwQAAAAAAACDBAACgQAAAAAAAAGDAAACgwAAAAAAAAGDAAAAgwQAAgL8AACDBAAAgwQAAgL8AACBBAAAgQQAAgL8AACDBAAAgwQAAgL8AACBBAAAgwQAAAAAAACDBAAAgwQAAAAAAACBBAAAgwQAAAAAAACBBAACgwAAAAAAAAGDAAACgwAAAAAAAACDAAAAgwQAAgL8AACBBAAAgwQAAAAAAACBBAAAgQQAAAAAAACBBAAAgwQAAAAAAACBBAACgwAAAAAAAACDAAAAgQQAAAAAAACBBAAAgwQAAAAAAACDBAAAgQQAAAAAAACDBAACgQAAAAAAAAGDAAAAgwQAAAAAAACDBAAAgQQAAgL8AACDBAAAgQQAAAAAAACDBAAAgQQAAAAAAACDBAACgQAAAAAAAACDAAACgQAAAAAAAAGDAAAAgQQAAgL8AACDBAAAgQQAAAAAAACBBAAAgQQAAAAAAACDBAAAgQQAAAAAAACDBAAAgQQAAAAAAACBBAACgQAAAAAAAACDAAAAgQQAAAAAAACBBAACgwAAAAAAAACDAAACgQAAAAAAAACDAAAAgwQAAgL8AACBBAAAgQQAAgL8AACBBAAAgQQAAgL8AACDBAAAgwQAAgL8AACBBAAAgQQAAAAAAACBBAAAgQQAAgL8AACBBAAAgQQAAgL8AACDBAAAgQQAAgL8AACBBAAAgQQAAAAAAACBBAACgwAAAEEEAACDAAACgwAAAAAAAACDAAACgwAAAAAAAAGDAAACgwAAAEEEAAGDAAACgwAAAAAAAAGDAAACgQAAAAAAAAGDAAACgwAAAEEEAAGDAAACgwAAAEEEAACDAAACgwAAAAAAAAGDAAACgwAAAEEEAACDAAACgQAAAEEEAACDAAACgwAAAAAAAACDAAACgwAAAEEEAAGDAAACgQAAAEEEAACDAAACgwAAAEEEAACDAAACgQAAAEEEAACDAAACgQAAAAAAAACDAAACgwAAAAAAAACDAAACgQAAAEEEAAGDAAACgQAAAAAAAAGDAAACgQAAAAAAAACDAAACgwAAAEEEAAGDAAACgQAAAAAAAAGDAAACgQAAAEEEAAGDAAACgwAAAEEEAAGDAAACgQAAAEEEAAGDAAACgQAAAEEEAACDAAACgQAAAEEEAAGDAAACgQAAAAAAAACDAAACgQAAAEEEAACDAAAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//////AAD/f/////8AAP9//////wAA/////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAAAAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//////AAD/f/////8AAP9//////wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/3//////AAD/f/////8AAP9//////wAA/////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5//3//////AAD/f/////8AAP9//////wAA/3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//////wAA/z//////AAD/P/////8AAP8/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5//////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5/")
+}]
+
+[node name="3d_examples" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ehjfc")
+
+[node name="ex1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7104878, 0, -3)
+
+[node name="Label3D" type="Label3D" parent="ex1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2606735, 0)
+text = "When sizing your
+sprites remember that
+in Godot 100 pixels = 1 meter
+Raw Sprite:"
+
+[node name="Sprite3D" type="Sprite3D" parent="ex1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.132101, 0)
+texture = ExtResource("1_npsk3")
+
+[node name="Label3D2" type="Label3D" parent="ex1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+text = "Stretch: To Height
+Min Size = (0.5, 0.4)
+Max Size = (1.0, 0.8)
+Width (x axis) is not affected"
+
+[node name="MarginSprite3D" type="Sprite3D" parent="ex1"]
+transform = Transform3D(1, 0, 0, 0, 0.625, 0, 0, 0, 1, 0, 0.97148144, 0)
 texture = ExtResource("1_npsk3")
 script = ExtResource("2_6sctd")
+stretch_mode = 3
+min_size = Vector2(0.5, 0.4)
+max_size = Vector2(1, 0.8)
 metadata/_custom_type_script = "uid://bk6gigavy5v6y"
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9432916, 0, 0)
+[node name="ex2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28951216, 0, -3)
+script = ExtResource("3_k2vod")
+
+[node name="Label3D" type="Label3D" parent="ex2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3552405, 5.160785, 0)
+text = "Raw Sprites:"
+
+[node name="Sprite3D" type="Sprite3D" parent="ex2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86039925, 4.3580627, 0)
+texture = ExtResource("4_yu1y5")
+
+[node name="Sprite3D2" type="Sprite3D" parent="ex2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3068804, 4.3589406, 0)
+texture = ExtResource("5_ehjfc")
+
+[node name="Label3D2" type="Label3D" parent="ex2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2150676, 3.2354336, 0)
+text = "Stretch: To Width
+Min Size = (0.5, 0.5)
+Max Size = (2.0, 2.0)
+Height (y axis) is not affected"
+
+[node name="MarginSprite3D" type="Sprite3D" parent="ex2"]
+transform = Transform3D(0.78125, 0, 0, 0, 1, 0, 0, 0, 1, -1.222724, 1.4398926, 0)
+texture = ExtResource("4_yu1y5")
+script = ExtResource("2_6sctd")
+stretch_mode = 2
+min_size = Vector2(0.5, 0.5)
+max_size = Vector2(1, 1.2)
+metadata/_custom_type_script = "uid://bk6gigavy5v6y"
+
+[node name="Timer" type="Timer" parent="ex2"]
+autostart = true
+
+[node name="ex3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2895122, 0, -3)
+
+[node name="Label3D" type="Label3D" parent="ex3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2606735, 0)
+text = "Raw Sprite:"
+
+[node name="Sprite3D" type="Sprite3D" parent="ex3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3617787, 0)
 texture = ExtResource("1_npsk3")
+
+[node name="Label3D2" type="Label3D" parent="ex3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8229387, 0)
+text = "In 3D:
+Texture Size = texture.get_size() / 100
+So neutral scale is 1.28
+Min Size = (0.5, 0.4)
+Max Size = (2.0, 1.5)
+Texture Size = (1.28, 1.28) is within those
+bounds so the sprite isn't affected"
+
+[node name="MarginSprite3D" type="Sprite3D" parent="ex3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97148144, 0)
+texture = ExtResource("1_npsk3")
+script = ExtResource("2_6sctd")
+stretch_mode = 3
+min_size = Vector2(0.5, 0.4)
+max_size = Vector2(2, 1.5)
+metadata/_custom_type_script = "uid://bk6gigavy5v6y"
+
+[node name="CSGBakedMeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.501)
+mesh = SubResource("ArrayMesh_j4f66")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9672997, -0.04597187)
+fov = 90.0
