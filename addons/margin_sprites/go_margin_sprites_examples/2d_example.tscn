@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://d4kfo0nh8d4k1"]
 
-[ext_resource type="Texture2D" uid="uid://cldskyr46o236" path="res://addons/margin_sprites/examples/128_128.jpg" id="1_tipss"]
+[ext_resource type="Texture2D" uid="uid://cldskyr46o236" path="res://addons/margin_sprites/go_margin_sprites_examples/128_128.jpg" id="1_tipss"]
 [ext_resource type="Script" uid="uid://dn06g0o5len06" path="res://addons/margin_sprites/margin_sprite_2d.gd" id="2_wu8pb"]
-[ext_resource type="Script" uid="uid://dgksc10cvqfwn" path="res://addons/margin_sprites/examples/2d_ex_2.gd" id="3_oixjd"]
-[ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/examples/256_128.jpg" id="4_6raxd"]
-[ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/examples/128_256.jpg" id="5_1n233"]
+[ext_resource type="Script" uid="uid://dgksc10cvqfwn" path="res://addons/margin_sprites/go_margin_sprites_examples/2d_ex_2.gd" id="3_oixjd"]
+[ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/go_margin_sprites_examples/256_128.jpg" id="4_6raxd"]
+[ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/go_margin_sprites_examples/128_256.jpg" id="5_1n233"]
 
 [node name="2d_example" type="Node2D"]
 

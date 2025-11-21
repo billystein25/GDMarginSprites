@@ -133,8 +133,6 @@ func _init() -> void:
 ## [member min_size], [member max_size], or [member Sprite2D.texture] are set.
 func _overwrite_scale() -> void:
 	
-	prints(self, "algo is running", _node_is_ready)
-	
 	if not texture:
 		return
 	if not texture_size:

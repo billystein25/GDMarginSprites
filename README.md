@@ -5,14 +5,14 @@ A Margin Sprite allows you to set a minimum and maximum size in pixels or
 meters for 2D and 3D respectively. It works similarly to the auto scaling of
 TextureRect.[br]
 
-## Example
+## Use Example
 Imagine you need to have a pick-up-able item in your 2D space, but your player 
 only has one item slot. In that case if the player is already holding an item you
-would want the item to the ground to be replaced by the one your player is already
+would want the item on the ground to be replaced by the one your player is already
 holding. But what happens if the two items have vastly different texture sizes?
 In that case you would need to scale your sprite depending on what item is
 currently being desplayed.[br]
-GoMarginSprites implement exactly that by implementing minimum and maximum sizes
+GoMarginSprites adds that functionality by implementing minimum and maximum sizes
 that the node will scale to. It also implements different stretch modes such as
 keeping the (1, 1) ratio of your texture, modifying only one of the two axis, or
 modifying both disregarding the ratio.[br]
@@ -27,11 +27,12 @@ All the implemented members are well documented within the code itself but here 
 a quick rundown.[br]
 This plugin works by modifying Node2D's and Node3D's scale property. As such, modifying
 it manually is meaningless. That said if you manually set the scale at runtime the 
-classes will respect your modification and will not overwrite it again. If you need
-for whatever reason to force the overwrite algorithm to run you can call
-force_overwrite_scale(), which is the only public method in the classes.[br]
-Min Size and Max Size are the minimum and maximum sizes in pixels or meters that the 
-node will scale to.[br]
+classes will respect your modification and will not overwrite it again until any of
+its properties is set. Those properties being Scale Mode, Min Size, Max Size and
+Texture. If you need for whatever reason to force the overwrite algorithm to run
+you can call force_overwrite_scale(), which is the only public method in the classes.[br]
+Min Size and Max Size are the minimum and maximum sizes in pixels or meters in
+worldspace that the node will scale to.[br]
 Stretch Mode is the way in which the scale will be modified. Keep Ratio fits the
 sprite within min size and max size while keeping the sprite's ratio at (1, 1). To
 Fit just scales the sprite to fit within min size and max size without taking into
