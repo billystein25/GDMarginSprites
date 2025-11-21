@@ -116,10 +116,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3617787, 0)
 texture = ExtResource("1_npsk3")
 
 [node name="Label3D2" type="Label3D" parent="ex3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8229387, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7555454, 0)
 text = "In 3D:
 Texture Size = texture.get_size() / 100
-So neutral scale is 1.28
+So neutral Texture Size = (1.28, 1.28)
+with scale = (1.0, 1.0)
 Min Size = (0.5, 0.4)
 Max Size = (2.0, 1.5)
 Texture Size = (1.28, 1.28) is within those
