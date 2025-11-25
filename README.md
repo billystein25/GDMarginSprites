@@ -31,8 +31,9 @@ you can call `force_overwrite_scale()`, which is the only public method in the c
 Min Size and Max Size are the minimum and maximum sizes in pixels or meters in
 worldspace that the node will scale to.<br>
 
-Stretch Mode is the way in which the scale will be modified.
-• Keep Ratio fits the sprite within min size and max size while keeping the sprite's ratio at (1, 1). • To Fit just scales the sprite to fit within min size and max size without taking into consideration the ratio of the scale.
+Stretch Mode is the way in which the scale will be modified.<br>
+• Keep Ratio fits the sprite within min size and max size while keeping the sprite's ratio at (1, 1).<br>
+• To Fit just scales the sprite to fit within min size and max size without taking into consideration the ratio of the scale.<br>
 • Fit Width and Fit Height work the same as To Fit except they only modify `scale.x` and `scale.y` respectively while the unmodified axis is set to the texture size.<br>
 
 The classes keep track of their current scale before it is overwritten and they emit the `scale_changed` signal when it is. The two parameters of that signal are the 'old' scale and the 'new' scale. This signal is emitted only if the scale has changed, if you need to know when the scale overwrite algorithm runs even if the scale isn't modified use `overwrite_scale_ran` instead.<br>
