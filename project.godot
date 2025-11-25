@@ -15,6 +15,11 @@ run/main_scene="uid://d4kfo0nh8d4k1"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[editor]
+
+movie_writer/movie_file="C:/Users/Billystein/Artistic Endeavours/godot tools/MarginSprite/movie2vid/movie.avi"
+movie_writer/fps=30
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/margin_sprites/plugin.cfg")
