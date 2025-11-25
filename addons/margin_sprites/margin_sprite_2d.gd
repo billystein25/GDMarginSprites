@@ -219,6 +219,8 @@ func _keep_mode() -> Vector2:
 			desired = Vector2(min_of_max_side_px * ratio, min_of_max_side_px)
 		limit_max_res = desired
 	
+	# TODO: fix it so that the error is pushed in the condition below
+	
 	prints(limit_max_res, limit_min_res)
 	
 	if limit_max_res and limit_min_res:
