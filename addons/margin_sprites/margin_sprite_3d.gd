@@ -223,6 +223,12 @@ func _keep_mode() -> Vector2:
 		else:
 			desired = Vector2(min_of_max_side_px * ratio, min_of_max_side_px)
 	
+	if (minf(desired.x, desired.y) < max_of_min_side_px or 
+		maxf(desired.x, desired.y) > min_of_max_side_px
+	):
+		printerr("It is impossible to keep (1, 1) scale ratio with Min Size: ",
+		min_size, " and Max Size: ", max_size)
+		return texture_size * scale_2d
 	
 	return desired
 

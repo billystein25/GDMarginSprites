@@ -200,16 +200,12 @@ func _keep_mode() -> Vector2:
 		):
 		return texture_size
 	
-	var limit_min_res : Vector2
-	var limit_max_res : Vector2
-	
 	# limit min
 	if max_of_min_side_px > texture_size.x or max_of_min_side_px > texture_size.y:
 		if texture_size.x > texture_size.y:
 			desired = Vector2(max_of_min_side_px * ratio, max_of_min_side_px)
 		else:
 			desired = Vector2(max_of_min_side_px, max_of_min_side_px / ratio)
-		limit_min_res = desired
 	
 	# limit max
 	elif min_of_max_side_px < texture_size.x or min_of_max_side_px < texture_size.y:
@@ -217,19 +213,15 @@ func _keep_mode() -> Vector2:
 			desired = Vector2(min_of_max_side_px, min_of_max_side_px / ratio)
 		else:
 			desired = Vector2(min_of_max_side_px * ratio, min_of_max_side_px)
-		limit_max_res = desired
 	
 	# TODO: fix it so that the error is pushed in the condition below
 	
-	prints(limit_max_res, limit_min_res)
-	
-	if limit_max_res and limit_min_res:
-		var min_of_max_res := minf(limit_max_res.x, limit_max_res.y)
-		var max_of_min_res := maxf(limit_min_res.x, limit_min_res.y)
-		if min_of_max_res < max_of_min_res:
-			printerr("It is impossible to keep (1, 1) scale ratio with Min Size: ",
-			min_size, " and Max Size: ", max_size)
-			return texture_size * scale
+	if (minf(desired.x, desired.y) < max_of_min_side_px or 
+		maxf(desired.x, desired.y) > min_of_max_side_px
+	):
+		printerr("It is impossible to keep (1, 1) scale ratio with Min Size: ",
+		min_size, " and Max Size: ", max_size)
+		return texture_size * scale
 	
 	return desired
 
