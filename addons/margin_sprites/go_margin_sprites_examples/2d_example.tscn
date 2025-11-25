@@ -1,12 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://d4kfo0nh8d4k1"]
+[gd_scene load_steps=8 format=3 uid="uid://d4kfo0nh8d4k1"]
 
+[ext_resource type="Texture2D" uid="uid://bq70icg77gbyb" path="res://addons/margin_sprites/go_margin_sprites_examples/px_image.png" id="1_nc477"]
 [ext_resource type="Texture2D" uid="uid://cldskyr46o236" path="res://addons/margin_sprites/go_margin_sprites_examples/128_128.jpg" id="1_tipss"]
+[ext_resource type="LabelSettings" uid="uid://c2intuigsm36b" path="res://addons/margin_sprites/go_margin_sprites_examples/label_settings.tres" id="2_1e2xs"]
 [ext_resource type="Script" uid="uid://dn06g0o5len06" path="res://addons/margin_sprites/margin_sprite_2d.gd" id="2_wu8pb"]
 [ext_resource type="Script" uid="uid://dgksc10cvqfwn" path="res://addons/margin_sprites/go_margin_sprites_examples/2d_ex_2.gd" id="3_oixjd"]
 [ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/go_margin_sprites_examples/256_128.jpg" id="4_6raxd"]
 [ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/go_margin_sprites_examples/128_256.jpg" id="5_1n233"]
 
 [node name="2d_example" type="Node2D"]
+
+[node name="PxImage" type="Sprite2D" parent="."]
+texture = ExtResource("1_nc477")
+offset = Vector2(576, 324)
 
 [node name="Ex1" type="Node2D" parent="."]
 position = Vector2(168, 0)
@@ -18,17 +24,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -43.5
-offset_top = 11.0
+offset_top = 87.0
 offset_right = 43.5
-offset_bottom = 34.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Raw Sprite:"
+label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Raw" type="Sprite2D" parent="Ex1"]
-position = Vector2(0, 105)
+position = Vector2(136, 105)
 texture = ExtResource("1_tipss")
 
 [node name="Min>128" type="Label" parent="Ex1"]
@@ -37,10 +44,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -158.5
-offset_top = 166.0
-offset_right = 158.5
-offset_bottom = 258.0
+offset_left = -63.0
+offset_top = 186.0
+offset_right = 254.0
+offset_bottom = 287.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/line_spacing = 0
@@ -48,11 +55,12 @@ text = "Stretch : To Fit
 Min Size = (192, 160) Max Size = (256, 256)
 Min Size > Texture Size so only
 Min Size is applied"
+label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MarginSprite2D" type="Sprite2D" parent="Ex1"]
-position = Vector2(0, 339)
+position = Vector2(28, 380)
 scale = Vector2(1.5, 1.25)
 texture = ExtResource("1_tipss")
 script = ExtResource("2_wu8pb")
@@ -67,20 +75,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -74.5
-offset_top = 431.0
-offset_right = 74.5
-offset_bottom = 506.0
+offset_left = -37.0
+offset_top = 501.0
+offset_right = 112.0
+offset_bottom = 602.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Stretch : To Fit
 Min Size = 0
-Max Size = (80, 110)"
+Max Size = (80, 110)
+ --->"
+label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MarginSprite2D2" type="Sprite2D" parent="Ex1"]
-position = Vector2(0, 578)
+position = Vector2(173, 556.00006)
 scale = Vector2(0.625, 0.859375)
 texture = ExtResource("1_tipss")
 script = ExtResource("2_wu8pb")
@@ -100,21 +110,22 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -240.5
-offset_top = 44.0
+offset_top = 74.0
 offset_right = -145.5
-offset_bottom = 67.0
+offset_bottom = 97.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Raw Sprites:"
+label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Raw" type="Sprite2D" parent="Ex2"]
-position = Vector2(17, 91)
+position = Vector2(6, 105)
 texture = ExtResource("4_6raxd")
 
 [node name="Raw2" type="Sprite2D" parent="Ex2"]
-position = Vector2(253, 146)
+position = Vector2(270, 172)
 texture = ExtResource("5_1n233")
 
 [node name="Min>128" type="Label" parent="Ex2"]
@@ -123,46 +134,33 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -295.0
-offset_top = 164.0
-offset_right = 182.0
-offset_bottom = 279.0
+offset_left = -374.0
+offset_top = 221.0
+offset_right = 103.0
+offset_bottom = 452.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/line_spacing = 0
 text = "Stretch : Keep
-Min Size = (150, 160) Max Size = (170, 180)
+Min Size = (50,  50) Max Size = (200, 200)
 In Stretch = Keep:
-If Min Size > Texture Size the greater of the two axis is applied
-If Max Size < Texture Size the lesser of the two axis  is applied"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Min>129" type="Label" parent="Ex2"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -354.0
-offset_top = 321.0
-offset_right = 58.0
-offset_bottom = 436.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/line_spacing = 0
-text = "Note that the sprite still gets stretched
+If Min Size > Texture Size the greater of
+the two axis is applied
+If Max Size < Texture Size the lesser of
+the two axis  is applied
+Note that the sprite still gets stretched
 But the scale ratio stays at 1:1"
+label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MarginSprite2D" type="Sprite2D" parent="Ex2"]
-position = Vector2(121.99999, 486)
-scale = Vector2(2.5, 0.625)
+position = Vector2(156, 499)
+scale = Vector2(0.78125, 0.78125)
 texture = ExtResource("5_1n233")
 script = ExtResource("2_wu8pb")
-min_size = Vector2(150, 160)
-max_size = Vector2(170, 180)
+min_size = Vector2(50, 50)
+max_size = Vector2(200, 200)
 metadata/_custom_type_script = "uid://dn06g0o5len06"
 
 [node name="Timer" type="Timer" parent="Ex2"]

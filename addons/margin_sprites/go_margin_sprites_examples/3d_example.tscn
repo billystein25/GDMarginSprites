@@ -1,10 +1,17 @@
-[gd_scene load_steps=10 format=4 uid="uid://xqcig8ah6sxv"]
+[gd_scene load_steps=13 format=4 uid="uid://xqcig8ah6sxv"]
 
+[ext_resource type="Texture2D" uid="uid://odpopkmrkq8w" path="res://addons/margin_sprites/go_margin_sprites_examples/m_image.png" id="1_mexsl"]
 [ext_resource type="Texture2D" uid="uid://cldskyr46o236" path="res://addons/margin_sprites/go_margin_sprites_examples/128_128.jpg" id="1_npsk3"]
 [ext_resource type="Script" uid="uid://bk6gigavy5v6y" path="res://addons/margin_sprites/margin_sprite_3d.gd" id="2_6sctd"]
 [ext_resource type="Script" uid="uid://s4wsxda5fsca" path="res://addons/margin_sprites/go_margin_sprites_examples/3d_ex_2.gd" id="3_k2vod"]
 [ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/go_margin_sprites_examples/128_256.jpg" id="4_yu1y5"]
 [ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/go_margin_sprites_examples/256_128.jpg" id="5_ehjfc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mexsl"]
+albedo_texture = ExtResource("1_mexsl")
+
+[sub_resource type="QuadMesh" id="QuadMesh_wkx6a"]
+size = Vector2(10, 7)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k2vod"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -31,6 +38,13 @@ _surfaces = [{
 }]
 
 [node name="3d_examples" type="Node3D"]
+
+[node name="bg" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -3.1)
+material_override = SubResource("StandardMaterial3D_mexsl")
+mesh = SubResource("QuadMesh_wkx6a")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
@@ -68,6 +82,12 @@ stretch_mode = 3
 min_size = Vector2(0.5, 0.4)
 max_size = Vector2(1, 0.8)
 metadata/_custom_type_script = "uid://bk6gigavy5v6y"
+
+[node name="Label3D3" type="Label3D" parent="ex1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.4132113, 0)
+text = "Note that the camera in
+this scene is set
+to Orthogonal view"
 
 [node name="ex2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28951216, 0, -3)
@@ -136,9 +156,11 @@ max_size = Vector2(2, 1.5)
 metadata/_custom_type_script = "uid://bk6gigavy5v6y"
 
 [node name="CSGBakedMeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.501)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7)
 mesh = SubResource("ArrayMesh_j4f66")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9672997, -0.04597187)
+projection = 1
 fov = 90.0
+size = 7.0

@@ -203,16 +203,16 @@ func _keep_mode() -> Vector2:
 	# limit min
 	if max_of_min_side_px > texture_size.x or max_of_min_side_px > texture_size.y:
 		if texture_size.x > texture_size.y:
-			desired = Vector2(max_of_min_side_px, max_of_min_side_px * ratio)
+			desired = Vector2(max_of_min_side_px * ratio, max_of_min_side_px)
 		else:
-			desired = Vector2(max_of_min_side_px / ratio, max_of_min_side_px)
+			desired = Vector2(max_of_min_side_px, max_of_min_side_px / ratio)
 	
 	# limit max
 	elif min_of_max_side_px < texture_size.x or min_of_max_side_px < texture_size.y:
 		if texture_size.x > texture_size.y:
-			desired = Vector2(min_of_max_side_px, min_of_max_side_px * ratio)
+			desired = Vector2(min_of_max_side_px, min_of_max_side_px / ratio)
 		else:
-			desired = Vector2(min_of_max_side_px / ratio, min_of_max_side_px)
+			desired = Vector2(min_of_max_side_px * ratio, min_of_max_side_px)
 	
 	return desired
 
