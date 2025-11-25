@@ -194,11 +194,14 @@ func _keep_mode() -> Vector2:
 	var max_of_min_side_px : float = maxf(min_size.x, min_size.y)
 	var min_of_max_side_px : float = minf(max_size.x, max_size.y)
 	
-	if (min_size.x < texture_size.x and min_size.y < texture_size.y
-		and max_size.x > texture_size.x and max_size.y > texture_size.y
+	# if box already in bounds return scale (1, 1)
+	if (max_of_min_side_px < texture_size.x and max_of_min_side_px < texture_size.y
+		and min_of_max_side_px > texture_size.x and min_of_max_side_px > texture_size.y
 		):
-		scale = Vector2.ONE
-		return texture_size * scale
+		return texture_size
+	
+	var limit_min_res : Vector2
+	var limit_max_res : Vector2
 	
 	# limit min
 	if max_of_min_side_px > texture_size.x or max_of_min_side_px > texture_size.y:
@@ -206,6 +209,7 @@ func _keep_mode() -> Vector2:
 			desired = Vector2(max_of_min_side_px * ratio, max_of_min_side_px)
 		else:
 			desired = Vector2(max_of_min_side_px, max_of_min_side_px / ratio)
+		limit_min_res = desired
 	
 	# limit max
 	elif min_of_max_side_px < texture_size.x or min_of_max_side_px < texture_size.y:
@@ -213,6 +217,17 @@ func _keep_mode() -> Vector2:
 			desired = Vector2(min_of_max_side_px, min_of_max_side_px / ratio)
 		else:
 			desired = Vector2(min_of_max_side_px * ratio, min_of_max_side_px)
+		limit_max_res = desired
+	
+	prints(limit_max_res, limit_min_res)
+	
+	if limit_max_res and limit_min_res:
+		var min_of_max_res := minf(limit_max_res.x, limit_max_res.y)
+		var max_of_min_res := maxf(limit_min_res.x, limit_min_res.y)
+		if min_of_max_res < max_of_min_res:
+			printerr("It is impossible to keep (1, 1) scale ratio with Min Size: ",
+			min_size, " and Max Size: ", max_size)
+			return texture_size * scale
 	
 	return desired
 

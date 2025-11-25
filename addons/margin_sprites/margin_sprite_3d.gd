@@ -203,11 +203,11 @@ func _keep_mode() -> Vector2:
 	var max_of_min_side_px : float = maxf(min_size.x, min_size.y)
 	var min_of_max_side_px : float = minf(max_size.x, max_size.y)
 	
-	if (min_size.x < texture_size.x and min_size.y < texture_size.y
-		and max_size.x > texture_size.x and max_size.y > texture_size.y
+	# if box already in bounds return scale (1, 1)
+	if (max_of_min_side_px < texture_size.x and max_of_min_side_px < texture_size.y
+		and min_of_max_side_px > texture_size.x and min_of_max_side_px > texture_size.y
 		):
-		scale_2d = texture_size
-		return scale_2d
+		return texture_size
 	
 	# limit min
 	if max_of_min_side_px > texture_size.x or max_of_min_side_px > texture_size.y:
