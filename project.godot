@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [editor]
 
-movie_writer/movie_file="C:/Users/Billystein/Artistic Endeavours/godot tools/MarginSprite/movie2vid/movie.avi"
+movie_writer/movie_file="C:/Users/Billystein/Artistic Endeavours/godot tools/MarginSprite/gifs/3d.avi"
 movie_writer/fps=30
 
 [editor_plugins]
