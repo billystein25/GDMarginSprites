@@ -45,29 +45,9 @@ var _node_is_ready : bool = false:
 		if _node_is_ready:
 			_overwrite_scale()
 
-## The modes that the node will stretch to.
-enum STRETCH_MODES{
-	## The [member Node3D.scale] will be modified so that it will keep its
-	## ratio to [code](1, 1)[/code].
-	KEEP_RATIO, 
-	## The [member Node3D.scale] will be modified to fit within
-	## [member min_size] and [member max_size] disregarding
-	## its Node3D.scale ratio.   
-	TO_FIT,
-	## Only the [code]x[/code] value of [member Node3D.scale] will be set through
-	## the algorithm to fit within [member min_size] and [member max_size].
-	## While the [code]y[/code] value is set to the [code]x[/code] value
-	## of [member texture_size].
-	TO_FIT_WIDTH,
-	## Only the [code]y[/code] value of [member Node3D.scale] will be set through
-	## the algorithm to fit within [member min_size] and [member max_size].
-	## While the [code]x[/code] value is set to the [code]y[/code] value
-	## of [member texture_size].
-	TO_FIT_HEIGHT,
-}
 
 ## The selected [enum STRETCH_MODES] mode that the node will stretch to.
-@export var stretch_mode : STRETCH_MODES = STRETCH_MODES.KEEP_RATIO:
+@export var stretch_mode : MarginSprites.STRETCH_MODES = MarginSprites.STRETCH_MODES.KEEP_RATIO:
 	set(value):
 		stretch_mode = value
 		if _node_is_ready:
@@ -148,19 +128,7 @@ func _overwrite_scale() -> void:
 	if not texture_size:
 		texture_size = texture.get_size()
 	
-	var desired : Vector2
-	
-	match stretch_mode:
-		STRETCH_MODES.TO_FIT:
-			desired = _scale_mode()
-		STRETCH_MODES.KEEP_RATIO:
-			desired = _keep_mode()
-		STRETCH_MODES.TO_FIT_WIDTH:
-			desired = _width_mode()
-		STRETCH_MODES.TO_FIT_HEIGHT:
-			desired = _height_mode()
-	
-	scale_2d = desired / texture_size
+	scale_2d = MarginSprites.overwrite_scale(stretch_mode, texture_size, scale_2d, min_size, max_size)
 	
 	if _old_scale != scale_2d:
 		if not _old_scale:
@@ -170,95 +138,6 @@ func _overwrite_scale() -> void:
 		_old_scale = scale_2d
 	overwrite_scale_ran.emit(scale)
 
-## The node is scaled to fit within [member min_size] and [member max_size]
-## according to [member stretch_mode] disregarding the [member Node3D.scale]'s
-## aspect ratio.
-func _scale_mode() -> Vector2:
-	
-	var desired := texture_size
-	desired = Vector2(
-				clamp(desired.x, min_size.x, max_size.x),
-				clamp(desired.y, min_size.y, max_size.y)
-			  )
-	
-	return desired
-
-## Sets [member Node3D.size] to fit the within [member min_size] and
-## [member max_size] according to [member stretch_mode] while keeping the 
-## aspect ratio to [code](1, 1)[/code].
-func _keep_mode() -> Vector2:
-	
-	var desired := texture_size
-	
-	# confirm that min_size < max_size on all axis. if not push error.
-	if min_size.x > max_size.y:
-		printerr("min_size.x is greater than max_size.y. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
-		return texture_size * scale_2d
-	if min_size.y > max_size.x:
-		printerr("min_size.y is greater than max_size.x. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
-		return texture_size * scale_2d
-	
-	var ratio: float = texture_size.x / texture_size.y
-	
-	var max_of_min_side_px : float = maxf(min_size.x, min_size.y)
-	var min_of_max_side_px : float = minf(max_size.x, max_size.y)
-	
-	# if box already in bounds return scale (1, 1)
-	if (max_of_min_side_px < texture_size.x and max_of_min_side_px < texture_size.y
-		and min_of_max_side_px > texture_size.x and min_of_max_side_px > texture_size.y
-		):
-		return texture_size
-	
-	# limit min
-	if max_of_min_side_px > texture_size.x or max_of_min_side_px > texture_size.y:
-		if texture_size.x > texture_size.y:
-			desired = Vector2(max_of_min_side_px * ratio, max_of_min_side_px)
-		else:
-			desired = Vector2(max_of_min_side_px, max_of_min_side_px / ratio)
-	
-	# limit max
-	elif min_of_max_side_px < texture_size.x or min_of_max_side_px < texture_size.y:
-		if texture_size.x > texture_size.y:
-			desired = Vector2(min_of_max_side_px, min_of_max_side_px / ratio)
-		else:
-			desired = Vector2(min_of_max_side_px * ratio, min_of_max_side_px)
-	
-	if (minf(desired.x, desired.y) < max_of_min_side_px or 
-		maxf(desired.x, desired.y) > min_of_max_side_px
-	):
-		printerr("It is impossible to keep (1, 1) scale ratio with Min Size: ",
-		min_size, " and Max Size: ", max_size)
-		return texture_size * scale_2d
-	
-	return desired
-
-## Sets the [code]x[/code] value of [member Node3D.size] to fit within
-## [member min_size] and [member max_size] according to [member stretch_mode].
-## The [code]x[/code] value is set to the [code]x[/code] value of
-## [member texture_size].
-func _width_mode() -> Vector2:
-	var desired := texture_size
-	
-	desired = Vector2(
-				clamp(desired.x, min_size.x, max_size.x),
-				texture_size.y
-			  )
-	
-	return desired
-
-## Sets the [code]y[/code] value of [member Node3D.size] to fit within
-## [member min_size] and [member max_size] according to [member stretch_mode].
-## The [code]y[/code] value is set to the [code]y[/code] value of
-## [member texture_size].
-func _height_mode() -> Vector2:
-	var desired := texture_size
-	
-	desired = Vector2(
-				texture_size.x,
-				clamp(desired.y, min_size.y, max_size.y)
-			  )
-	
-	return desired
 
 #endregion
 
