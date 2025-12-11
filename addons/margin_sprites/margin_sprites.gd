@@ -57,25 +57,20 @@ func get_desired_keep(
 	
 	# early returns
 	
+	## The previous scale in world units.
+	var input_scale := texture_size * old_scale
+	
 	# confirm that min_size < max_size on all axis. if not push error.
 	if min_size.x > max_size.y:
 		printerr("min_size.x is greater than max_size.y. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
-		return texture_size * old_scale
+		return input_scale
 	if min_size.y > max_size.x:
 		printerr("min_size.y is greater than max_size.x. This is required to keep the (1, 1) aspect ratio. Scale was not modified.")
-		return texture_size * old_scale
+		return input_scale
 	
-	# if texture already in bounds return scale (1, 1)
-	if (
-		min_size.x < texture_size.x and min_size.y < texture_size.y
-		and max_size.x > texture_size.x and max_size.y > texture_size.y
-	):
-		return texture_size
+	# work
 	
-	## Desired size in world units (pixels or meters).
-	var desired := texture_size
-	
-	desired = get_desired_keep_no_check(texture_size, min_size, max_size)
+	var desired := get_desired_keep_no_check(texture_size, min_size, max_size)
 	
 	if not ( min_size.x <= desired.x and desired.x <= max_size.x
 		and min_size.y <= desired.y and desired.y <= max_size.y
@@ -83,7 +78,7 @@ func get_desired_keep(
 		printerr("It is impossible to keep (1, 1) scale ratio with Min Size: ",
 		min_size, " and Max Size: ", max_size)
 		
-		desired = texture_size * old_scale
+		return input_scale
 	
 	return desired
 
@@ -146,6 +141,7 @@ func get_contained_scale(
 	min_size: Vector2, max_size: Vector2, old_scale: Vector2
 ) -> Vector2:
 	
+	## Desired size in world units (pixels or meters).
 	var desired : Vector2 = texture_size
 	
 	match stretch_mode:
