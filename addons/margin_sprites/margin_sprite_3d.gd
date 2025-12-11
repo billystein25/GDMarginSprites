@@ -45,6 +45,27 @@ var _node_is_ready : bool = false:
 		if _node_is_ready:
 			_overwrite_scale()
 
+## The size of the texture translated to meters in 3D. The ratio on Godot is
+## [code]100[/code] equals [code]1[/code] meters. This value is the same as
+## [code]Texture2D.get_size() / 100[/code]. Also calls [method _overwrite_scale]
+## when it is set.
+var texture_size: Vector2:
+	set(value):
+		texture_size = value / 100
+		if _node_is_ready:
+			_overwrite_scale()
+
+## The desired 2D scale. Since the z axis doesn't matter with 3D sprites the
+## algorithm runs in 2D and sets this property. Then through a setter
+## [Node3D.scale] is set to [code]Vector3(scale_2d.x, scale_2d.y, scale.z)[/code].
+## So the z axis isn't affected.
+var scale_2d := Vector2.ONE:
+	set(value):
+		scale_2d = value
+		scale = Vector3(scale_2d.x, scale_2d.y, scale.z)
+
+## A reference to [MarginSprites] which contains the necessary functions.
+var gms := MarginSprites.new()
 
 ## The selected [enum STRETCH_MODES] mode that the node will stretch to.
 @export var stretch_mode : MarginSprites.STRETCH_MODES = MarginSprites.STRETCH_MODES.KEEP_RATIO:
@@ -76,25 +97,6 @@ var _node_is_ready : bool = false:
 		if max_size.y < min_size.y:
 			min_size.y = max_size.y
 		_overwrite_scale()
-
-## The size of the texture translated to meters in 3D. The ratio on Godot is
-## [code]100[/code] equals [code]1[/code] meters. This value is the same as
-## [code]Texture2D.get_size() / 100[/code]. Also calls [method _overwrite_scale]
-## when it is set.
-var texture_size: Vector2:
-	set(value):
-		texture_size = value / 100
-		if _node_is_ready:
-			_overwrite_scale()
-
-## The desired 2D scale. Since the z axis doesn't matter with 3D sprites the
-## algorithm runs in 2D and sets this property. Then through a setter
-## [Node3D.scale] is set to [code]Vector3(scale_2d.x, scale_2d.y, scale.z)[/code].
-## So the z axis isn't affected.
-var scale_2d := Vector2.ONE:
-	set(value):
-		scale_2d = value
-		scale = Vector3(scale_2d.x, scale_2d.y, scale.z)
 
 #endregion
 
@@ -128,7 +130,7 @@ func _overwrite_scale() -> void:
 	if not texture_size:
 		texture_size = texture.get_size()
 	
-	scale_2d = MarginSprites.overwrite_scale(stretch_mode, texture_size, scale_2d, min_size, max_size)
+	scale_2d = gms.overwrite_scale(stretch_mode, texture_size, scale_2d, min_size, max_size)
 	
 	if _old_scale != scale_2d:
 		if not _old_scale:

@@ -75,10 +75,10 @@ Max Size = (1.0, 0.8)
 Width (x axis) is not affected"
 
 [node name="MarginSprite3D" type="Sprite3D" parent="ex1"]
-transform = Transform3D(1, 0, 0, 0, 0.625, 0, 0, 0, 1, 0, 0.97148144, 0)
+transform = Transform3D(0.78125, 0, 0, 0, 0.78125, 0, 0, 0, 1, 0, 0.97148144, 0)
 texture = ExtResource("1_npsk3")
 script = ExtResource("2_6sctd")
-stretch_mode = 3
+stretch_mode = 2
 min_size = Vector2(0.5, 0.4)
 max_size = Vector2(1, 0.8)
 metadata/_custom_type_script = "uid://bk6gigavy5v6y"

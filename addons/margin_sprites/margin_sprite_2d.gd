@@ -45,6 +45,17 @@ var _node_is_ready : bool = false:
 		if _node_is_ready:
 			_overwrite_scale()
 
+## The same as the [method Texture2D.get_size] method of
+## [member Sprite2D.texture]. Also calls [method _overwrite_scale] when it is set.
+var texture_size: Vector2:
+	set(value):
+		texture_size = value
+		if _node_is_ready:
+			_overwrite_scale()
+
+## A reference to [MarginSprites] which contains the necessary functions.
+var gms := MarginSprites.new()
+
 ## The selected [enum STRETCH_MODES] mode that the node will stretch to.
 @export var stretch_mode : MarginSprites.STRETCH_MODES = MarginSprites.STRETCH_MODES.KEEP_RATIO:
 	set(value):
@@ -75,14 +86,6 @@ var _node_is_ready : bool = false:
 		if max_size.y < min_size.y:
 			min_size.y = max_size.y
 		_overwrite_scale()
-
-## The same as the [method Texture2D.get_size] method of
-## [member Sprite2D.texture]. Also calls [method _overwrite_scale] when it is set.
-var texture_size: Vector2:
-	set(value):
-		texture_size = value
-		if _node_is_ready:
-			_overwrite_scale()
 
 #endregion
 
@@ -116,8 +119,8 @@ func _overwrite_scale() -> void:
 		return
 	if not texture_size:
 		texture_size = texture.get_size()
-
-	scale = MarginSprites.overwrite_scale(stretch_mode, texture_size, scale, min_size, max_size)
+	
+	scale = gms.overwrite_scale(stretch_mode, texture_size, scale, min_size, max_size)
 	
 	if _old_scale != scale:
 		if not _old_scale:
