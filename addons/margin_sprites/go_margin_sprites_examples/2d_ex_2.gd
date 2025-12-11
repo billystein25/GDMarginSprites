@@ -3,6 +3,7 @@ extends Node2D
 const g_128_256 = preload("uid://cmotodt08k8pv")
 const p_256_128 = preload("uid://w618xlhyjyvq")
 var curr_g := true
+var count : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,3 +15,6 @@ func _switch() -> void:
 	else:
 		$MarginSprite2D.texture = g_128_256
 	curr_g = not curr_g
+	count += 1
+	if count == 2:
+		get_tree().quit()

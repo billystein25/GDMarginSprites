@@ -13,10 +13,10 @@ This plugin is not a substitute for properly sizing texture resources and it is 
 
 ## Images
 2D Example and explanation<br>
-![](https://github.com/billystein25/GoMarginSprites/blob/master/gifs/2d.gif)
+![](https://github.com/billystein25/GoMarginSprites/blob/master/gifs/2d_example.gif)
 
 3D Example and explanation<br>
-![](https://github.com/billystein25/GoMarginSprites/blob/master/gifs/3d.gif)
+![](https://github.com/billystein25/GoMarginSprites/blob/master/gifs/3d_example.gif)
 
 ## Documentation
 All the implemented members are well documented within the code itself but here is

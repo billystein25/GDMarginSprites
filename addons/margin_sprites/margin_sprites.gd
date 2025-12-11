@@ -10,22 +10,22 @@ extends RefCounted
 
 #region constants
 
-## The modes that the node can stretch to.
+## The modes that the node can stretch to according to the Minimum and Maximum
+## size margins in world units (Pixels for 2D and Meters for 3D).[br][br]
+## See [member MarginSprite2D.min_size], [member MarginSprite2D.max_size], [member MarginSprite3D.min_size], and [member MarginSprite3D.max_size].
 enum STRETCH_MODES{
 	## The scale of the sprite will be modified so that the texture will keep
 	## its ratio to [code](1, 1)[/code] while fitting within the margins set by
-	## Min Size and Max Size.[br][br]
-	## See [member MarginSprite2D.min_size], [member MarginSprite2D.max_size], [member MarginSprite3D.min_size], and [member MarginSprite3D.max_size].
+	## Min Size and Max Size.
 	KEEP_RATIO, 
 	## The scale of the sprite will be modified so that the texture will fit
 	## within the margins set by Min Size and Max Size with no regard for the 
-	## ratio of the texture. [br][br]
-	## See [member MarginSprite2D.min_size], [member MarginSprite2D.max_size], [member MarginSprite3D.min_size], and [member MarginSprite3D.max_size].
+	## ratio of the texture.
 	TO_FIT,
 	## There will be an attempt to modify the scale of the sprite so that the
 	## texture will keep its ratio to [code](1, 1)[/code] while fitting within
-	## Min Size and Max Size. If that fails then it will scale like [constant TO_FIT].[br][br]
-	## See [member MarginSprite2D.min_size], [member MarginSprite2D.max_size], [member MarginSprite3D.min_size], and [member MarginSprite3D.max_size].
+	## Min Size and Max Size. If that fails then it will scale like
+	## [constant TO_FIT].
 	TO_FIT_SMART,
 }
 
