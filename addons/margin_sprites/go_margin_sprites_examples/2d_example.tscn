@@ -156,11 +156,11 @@ vertical_alignment = 1
 
 [node name="MarginSprite2D" type="Sprite2D" parent="Ex2"]
 position = Vector2(156, 499)
-scale = Vector2(1.015625, 1.015625)
+scale = Vector2(0.78125, 0.78125)
 texture = ExtResource("5_1n233")
 script = ExtResource("2_wu8pb")
-min_size = Vector2(130, 130)
-max_size = Vector2(5000, 5000)
+min_size = Vector2(50, 50)
+max_size = Vector2(200, 200)
 metadata/_custom_type_script = "uid://dn06g0o5len06"
 
 [node name="Timer" type="Timer" parent="Ex2"]
