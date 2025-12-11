@@ -156,6 +156,7 @@ position = Vector2(156, 499)
 scale = Vector2(0.78125, 0.78125)
 texture = ExtResource("5_1n233")
 script = ExtResource("2_wu8pb")
+stretch_mode = 2
 min_size = Vector2(50, 50)
 max_size = Vector2(200, 200)
 metadata/_custom_type_script = "uid://dn06g0o5len06"

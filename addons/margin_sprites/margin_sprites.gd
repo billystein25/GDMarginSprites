@@ -33,8 +33,8 @@ enum STRETCH_MODES{
 
 #region private-methods
 
-## Implements [constant TO_FIT]. Returns the desired size in world units. Pixels
-## for 2D and Meters for 3D.[br][br]
+## Returns the desired size in world units (Pixels for 2D and Meters for 3D)
+## according to [constant TO_FIT].[br][br]
 ## It is called internally by [method overwrite_scale].
 func get_desired_fit(
 	texture_size: Vector2, min_size: Vector2, max_size: Vector2
@@ -45,8 +45,8 @@ func get_desired_fit(
 				clamp(texture_size.y, min_size.y, max_size.y)
 			  )
 
-## Implements [constant KEEP_RATIO]. Returns the desired size in world units.
-## Pixels for 2D and Meters for 3D.[br][br]
+## Returns the desired size in world units (Pixels for 2D and Meters for 3D)
+## according to [constant KEEP_RATIO].[br][br]
 ## If it is impossible to keep the scale ratio of the texture to [code](1, 1)[/code]
 ## then an error is printed and no change is applied.[br][br]
 ## It is called internally by [method overwrite_scale].
@@ -87,8 +87,8 @@ func get_desired_keep(
 	
 	return desired
 
-## Implements [constant TO_FIT_SMART]. Returns the desired size in world units.
-## Pixels for 2D and Meters for 3D.[br][br]
+## Returns the desired size in world units (Pixels for 2D and Meters for 3D)
+## according to [constant TO_FIT_SMART].[br][br]
 ## It is called internally by [method overwrite_scale].
 func get_desired_smart(
 	texture_size: Vector2, min_size: Vector2, max_size: Vector2
@@ -138,9 +138,9 @@ func get_desired_keep_no_check(
 
 #region global-methods
 
-## Returns a [Vector2] to act as a scale of the sprite so that it will fit within
-## the [param min_size] and [param max_size] margins according to
-## [param stretch_mode].
+## Returns a [Vector2] to act as the new scale of the sprite so that it will
+## fit within the [param min_size] and [param max_size] margins according to
+## [param stretch_mode]. See [enum STRETCH_MODES].
 func get_contained_scale(
 	stretch_mode: STRETCH_MODES, texture_size: Vector2,
 	min_size: Vector2, max_size: Vector2, old_scale: Vector2
