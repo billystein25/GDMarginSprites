@@ -10,7 +10,7 @@ Imagine you need to have a an item that can be picked up in your 2D space, but y
 GoMarginSprites adds that functionality by implementing minimum and maximum sizes that the node will scale to. It also implements different stretch modes such as keeping the `(1, 1)` ratio of your texture, scaling the sprite disregarding the ratio, and attempting to keep the `(1, 1)` ratio and disregarding the offending axis if that fails.<br>
 
 ## Note on Usecases
-This plugin is not a substitute for properly sizing texture resources and it is recommended that it is not used as such. It is intended to be used in gamejams and other events where time is limited or you are unable to properly make images in the ideal resolution.
+This plugin is not a substitute for creating properly sized texture resources and it is recommended that it is not used as such. It is intended to be used in gamejams and other events where time is limited or you are unable to properly make images in the ideal resolution.
 
 ## Images
 2D Example and explanation<br>
