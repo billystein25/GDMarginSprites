@@ -80,23 +80,23 @@ texture = ExtResource("5_ehjfc")
 [node name="Label3D2" type="Label3D" parent="ex1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8797584, 1.7090571, 0)
 text = "Stretch: To Fit Smart
-Min Size = (3.0, 0.0)
+Min Size = (4.0, 0.0)
 Max Size = (10.0, 4.0)
 The sprite will attempt to stretch while
 keeping its scale ratio to 1. If that fails 
 then To Fit will be applied
-Notice that with a min x size of 3 the 
+Notice that with a min x size of 4 the 
 pink sprite is stretched and keeps its
 scale ratio to 1. Meanwhile the green 
 text gets squashed due to max y size 
-being 3."
+being 4."
 
 [node name="MarginSprite3D" type="Sprite3D" parent="ex1"]
-transform = Transform3D(2.34375, 0, 0, 0, 1.5625, 0, 0, 0, 1, 1.7226901, 3.5057, 0)
+transform = Transform3D(3.125, 0, 0, 0, 1.5625, 0, 0, 0, 1, 2.2064562, 3.5057, 0)
 texture = ExtResource("4_yu1y5")
 script = ExtResource("2_6sctd")
 stretch_mode = 2
-min_size = Vector2(3, 0)
+min_size = Vector2(4, 0)
 max_size = Vector2(10, 4)
 metadata/_custom_type_script = "uid://bk6gigavy5v6y"
 
