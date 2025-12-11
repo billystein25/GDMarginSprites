@@ -37,3 +37,8 @@ Stretch Mode is the way in which the scale will be modified.<br>
 • `To Fit` Smart will first attempt to scale the sprite just like in `Keep` mode. However if it is impossible to do so, then `To Fit` will be applied.<br>
 
 The classes keep track of their current scale before it is overwritten and they emit the `scale_changed` signal when it is. The two parameters of that signal are the `old` scale and the `new` scale. This signal is emitted only if the scale has changed, if you need to know when the scale overwrite algorithm runs even if the scale isn't modified use `overwrite_scale_ran` instead.<br>
+
+## Installation 
+(This method does not work as of now. awaiting approval of asset library and asset store) You can download and install this plugin from within Godot itself by navigating to the top panel section and selecting AssetLib. From there you can search for GoMarginSprites and you will find this plugin made by me, billystein25.<br>
+
+Alternatively if you prefer the manual method you can download this plugin by cloning this repository, or by downloading its files as a .zip file. From there once you extract the contents of the .zip file, copy the assets folder into your Godot project. Make sure that you merge with the existing assets folder if you already have one. Finally, make sure that the plugin in is enabled by navigating to Project/Project Settings/Plugins and enabling GoMarginSprites. For more information check the [official documentation](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html).
