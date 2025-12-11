@@ -73,7 +73,6 @@ func _keep_mode(
 		# stretch on y
 		desired = Vector2(max_size.y * texture_ratio, max_size.y)
 	
-	prints(desired, min_size, max_size)
 	if not ( min_size.x <= desired.x and desired.x <= max_size.x
 		and min_size.y <= desired.y and desired.y <= max_size.y
 	):

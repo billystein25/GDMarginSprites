@@ -144,12 +144,9 @@ theme_override_constants/line_spacing = 0
 text = "Stretch : Keep
 Min Size = (50,  50) Max Size = (200, 200)
 In Stretch = Keep:
-If Min Size > Texture Size the greater of
-the two axis is applied
-If Max Size < Texture Size the lesser of
-the two axis  is applied
-Note that the sprite still gets stretched
-But the scale ratio stays at 1:1"
+The sprite will scale to fit within Min
+and Max margins while keeping its
+original scale ratio."
 label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
