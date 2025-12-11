@@ -88,7 +88,6 @@ func _init() -> void:
 	
 	if not texture_size and texture:
 		texture_size = texture.get_size()
-	
 
 #endregion
 
@@ -106,7 +105,7 @@ func _overwrite_scale() -> void:
 	if not texture_size:
 		texture_size = texture.get_size()
 	
-	scale = gms.overwrite_scale(stretch_mode, texture_size, scale, min_size, max_size)
+	scale = gms.get_contained_scale(stretch_mode, texture_size, min_size, max_size, scale)
 	
 	if _old_scale != scale:
 		if not _old_scale:

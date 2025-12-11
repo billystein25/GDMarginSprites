@@ -45,7 +45,7 @@ var texture_size: Vector2:
 		if is_node_ready():
 			_overwrite_scale()
 
-## The desired 2D scale. Since the z axis doesn't matter with 3D sprites the
+## The translated 2D scale. Since the z axis doesn't matter in 3D sprites the
 ## algorithm runs in 2D and sets this property. Then through a setter
 ## [Node3D.scale] is set to [code]Vector3(scale_2d.x, scale_2d.y, scale.z)[/code].
 ## So the z axis isn't affected.
@@ -99,7 +99,6 @@ func _init() -> void:
 	
 	if not texture_size and texture:
 		texture_size = texture.get_size()
-	
 
 #endregion
 
@@ -117,7 +116,7 @@ func _overwrite_scale() -> void:
 	if not texture_size:
 		texture_size = texture.get_size()
 	
-	scale_2d = gms.overwrite_scale(stretch_mode, texture_size, scale_2d, min_size, max_size)
+	scale_2d = gms.get_contained_scale(stretch_mode, texture_size, min_size, max_size, scale_2d)
 	
 	if _old_scale != scale_2d:
 		if not _old_scale:
@@ -126,7 +125,7 @@ func _overwrite_scale() -> void:
 			scale_changed.emit(_old_scale, scale)
 		_old_scale = scale_2d
 	overwrite_scale_ran.emit(scale)
-
+	
 
 #endregion
 
