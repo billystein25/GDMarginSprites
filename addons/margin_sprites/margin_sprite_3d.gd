@@ -35,16 +35,6 @@ signal overwrite_scale_ran(new_scale: Vector2)
 ## emit [signal scale_changed].
 var _old_scale : Vector2
 
-## Is set to true when the node is ready. Used to prevent min size and max size
-## setters from messing with the values while the node is constructed and they
-## aren't fully loaded. Once it gets sets to [code]true[/code] it runs the
-## [method _overwrite_scale] method.
-var _node_is_ready : bool = false:
-	set(value):
-		_node_is_ready = value
-		if _node_is_ready:
-			_overwrite_scale()
-
 ## The size of the texture translated to meters in 3D. The ratio on Godot is
 ## [code]100[/code] equals [code]1[/code] meters. This value is the same as
 ## [code]Texture2D.get_size() / 100[/code]. Also calls [method _overwrite_scale]
@@ -52,7 +42,7 @@ var _node_is_ready : bool = false:
 var texture_size: Vector2:
 	set(value):
 		texture_size = value / 100
-		if _node_is_ready:
+		if is_node_ready():
 			_overwrite_scale()
 
 ## The desired 2D scale. Since the z axis doesn't matter with 3D sprites the
@@ -71,14 +61,14 @@ var gms := MarginSprites.new()
 @export var stretch_mode : MarginSprites.STRETCH_MODES = MarginSprites.STRETCH_MODES.KEEP_RATIO:
 	set(value):
 		stretch_mode = value
-		if _node_is_ready:
+		if is_node_ready():
 			_overwrite_scale()
 
 ## The minimum size in pixels that the node will scale to.
 @export_custom(PROPERTY_HINT_NONE, "suffix:m") var min_size: Vector2 = Vector2.ONE:
 	set(value):
 		min_size = value
-		if not _node_is_ready:
+		if not is_node_ready():
 			return
 		if min_size.x > max_size.x:
 			max_size.x = min_size.x
@@ -90,7 +80,7 @@ var gms := MarginSprites.new()
 @export_custom(PROPERTY_HINT_NONE, "suffix:m") var max_size: Vector2 = Vector2.ONE:
 	set(value):
 		max_size = value
-		if not _node_is_ready:
+		if not is_node_ready():
 			return
 		if max_size.x < min_size.x:
 			min_size.x = max_size.x
@@ -103,16 +93,13 @@ var gms := MarginSprites.new()
 #region virtual-methods
 
 func _init() -> void:
-	if not texture_size and texture:
-		texture_size = texture.get_size()
-	
 	texture_changed.connect(
 		func(): texture_size = texture.get_size()
 	)
 	
-	ready.connect(
-		func(): _node_is_ready = true
-	)
+	if not texture_size and texture:
+		texture_size = texture.get_size()
+	
 
 #endregion
 
