@@ -41,9 +41,9 @@ func get_desired_fit(
 	) -> Vector2:
 	
 	return Vector2(
-				clamp(texture_size.x, min_size.x, max_size.x),
-				clamp(texture_size.y, min_size.y, max_size.y)
-			  )
+		clamp(texture_size.x, min_size.x, max_size.x),
+		clamp(texture_size.y, min_size.y, max_size.y)
+	)
 
 ## Returns the desired size in world units (Pixels for 2D and Meters for 3D)
 ## according to [constant KEEP_RATIO].[br][br]
@@ -145,10 +145,10 @@ func get_contained_scale(
 	var desired : Vector2 = texture_size
 	
 	match stretch_mode:
-		STRETCH_MODES.TO_FIT:
-			desired = get_desired_fit(texture_size, min_size, max_size)
 		STRETCH_MODES.KEEP_RATIO:
 			desired = get_desired_keep(texture_size, min_size, max_size, old_scale)
+		STRETCH_MODES.TO_FIT:
+			desired = get_desired_fit(texture_size, min_size, max_size)
 		STRETCH_MODES.TO_FIT_SMART:
 			desired = get_desired_smart(texture_size, min_size, max_size)
 	
