@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://odpopkmrkq8w" path="res://addons/margin_sprites/go_margin_sprites_examples/m_image.png" id="1_mexsl"]
 [ext_resource type="Script" uid="uid://bk6gigavy5v6y" path="res://addons/margin_sprites/margin_sprite_3d.gd" id="2_6sctd"]
-[ext_resource type="Script" uid="uid://s4wsxda5fsca" path="res://addons/margin_sprites/go_margin_sprites_examples/3d_ex_2.gd" id="3_k2vod"]
+[ext_resource type="Script" uid="uid://s4wsxda5fsca" path="res://addons/margin_sprites/go_margin_sprites_examples/3d_ex_1.gd" id="3_k2vod"]
 [ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/go_margin_sprites_examples/128_256.jpg" id="4_yu1y5"]
 [ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/go_margin_sprites_examples/256_128.jpg" id="5_ehjfc"]
 
