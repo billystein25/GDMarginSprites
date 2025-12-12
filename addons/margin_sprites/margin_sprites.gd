@@ -36,7 +36,7 @@ enum STRETCH_MODES{
 ## Returns the desired size in world units (Pixels for 2D and Meters for 3D)
 ## according to [constant TO_FIT].[br][br]
 ## It is called internally by [method overwrite_scale].
-func get_desired_fit(
+static func get_desired_fit(
 	texture_size: Vector2, min_size: Vector2, max_size: Vector2
 	) -> Vector2:
 	
@@ -50,7 +50,7 @@ func get_desired_fit(
 ## If it is impossible to keep the scale ratio of the texture to [code](1, 1)[/code]
 ## then an error is printed and no change is applied.[br][br]
 ## It is called internally by [method overwrite_scale].
-func get_desired_keep(
+static func get_desired_keep(
 	texture_size: Vector2, min_size: Vector2, max_size: Vector2,
 	old_scale: Vector2,
 ) -> Vector2:
@@ -85,7 +85,7 @@ func get_desired_keep(
 ## Returns the desired size in world units (Pixels for 2D and Meters for 3D)
 ## according to [constant TO_FIT_SMART].[br][br]
 ## It is called internally by [method overwrite_scale].
-func get_desired_smart(
+static func get_desired_smart(
 	texture_size: Vector2, min_size: Vector2, max_size: Vector2
 ) -> Vector2:
 	
@@ -103,7 +103,7 @@ func get_desired_smart(
 ## [b]Note[/b]: If a ratio of [code](1, 1)[/code] cannot be achieved then a wrong
 ## value will be returned and no error will be printed.[br][br]
 ## It is called internally by [method get_desired_keep] and [method get_desired_smart].
-func get_desired_keep_no_check(
+static func get_desired_keep_no_check(
 	texture_size : Vector2, min_size: Vector2, max_size: Vector2
 ) -> Vector2:
 	
@@ -136,7 +136,7 @@ func get_desired_keep_no_check(
 ## Returns a [Vector2] to act as the new scale of the sprite so that it will
 ## fit within the [param min_size] and [param max_size] margins according to
 ## [param stretch_mode]. See [enum STRETCH_MODES].
-func get_contained_scale(
+static func get_contained_scale(
 	stretch_mode: STRETCH_MODES, texture_size: Vector2,
 	min_size: Vector2, max_size: Vector2, old_scale: Vector2
 ) -> Vector2:

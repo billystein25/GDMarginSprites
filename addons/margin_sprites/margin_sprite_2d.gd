@@ -43,9 +43,6 @@ var texture_size: Vector2:
 		if is_node_ready():
 			_overwrite_scale()
 
-## A reference to [MarginSprites] which contains the necessary functions.
-var gms := MarginSprites.new()
-
 ## The selected [enum STRETCH_MODES] mode that the node will stretch to.
 @export var stretch_mode : MarginSprites.STRETCH_MODES = MarginSprites.STRETCH_MODES.KEEP_RATIO:
 	set(value):
@@ -105,7 +102,7 @@ func _overwrite_scale() -> void:
 	if not texture_size:
 		texture_size = texture.get_size()
 	
-	scale = gms.get_contained_scale(stretch_mode, texture_size, min_size, max_size, scale)
+	scale = MarginSprites.get_contained_scale(stretch_mode, texture_size, min_size, max_size, scale)
 	
 	if _old_scale != scale:
 		if not _old_scale:

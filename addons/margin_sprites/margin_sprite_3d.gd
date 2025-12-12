@@ -54,9 +54,6 @@ var scale_2d := Vector2.ONE:
 		scale_2d = value
 		scale = Vector3(scale_2d.x, scale_2d.y, scale.z)
 
-## A reference to [MarginSprites] which contains the necessary functions.
-var gms := MarginSprites.new()
-
 ## The selected [enum STRETCH_MODES] mode that the node will stretch to.
 @export var stretch_mode : MarginSprites.STRETCH_MODES = MarginSprites.STRETCH_MODES.KEEP_RATIO:
 	set(value):
@@ -116,7 +113,7 @@ func _overwrite_scale() -> void:
 	if not texture_size:
 		texture_size = texture.get_size()
 	
-	scale_2d = gms.get_contained_scale(stretch_mode, texture_size, min_size, max_size, scale_2d)
+	scale_2d = MarginSprites.get_contained_scale(stretch_mode, texture_size, min_size, max_size, scale_2d)
 	
 	if _old_scale != scale_2d:
 		if not _old_scale:
