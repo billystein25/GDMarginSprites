@@ -28,7 +28,7 @@ signal scale_changed(old_scale: Vector2, new_scale: Vector2)
 
 ## Emitted every time [method _overwrite_scale] is called even if the
 ## [member Node3D.scale] didn't change.
-signal overwrite_scale_ran(new_scale: Vector2)
+signal overwrite_scale_executed(new_scale: Vector2)
 
 ## Set to [member Node3D.scale] whenever it is set through
 ## [method _overwrite_scale]. Used to determine of the scale has been altered to
@@ -121,7 +121,7 @@ func _overwrite_scale() -> void:
 		else:
 			scale_changed.emit(_old_scale, scale)
 		_old_scale = scale_2d
-	overwrite_scale_ran.emit(scale)
+	overwrite_scale_executed.emit(scale)
 	
 
 #endregion

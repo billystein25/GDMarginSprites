@@ -1,10 +1,10 @@
 # TODO: By 2062 when traits get merged this whole script should probably be a trait
 
-## The base component containing the functions that [MarginSprite2D] and
+## The base library containing the functions that [MarginSprite2D] and
 ## [MarginSprite3D] use.
 ##
-## This class acts as a library which implements the different stretch functions
-## that [MarginSprite2D] and [MarginSprite3D] use when they are scaled.
+## This class acts as a static library which implements the different stretch
+## functions that [MarginSprite2D] and [MarginSprite3D] use when they are scaled.
 class_name MarginSprites
 extends RefCounted
 
@@ -70,13 +70,13 @@ static func get_desired_keep(
 	
 	# work
 	
-	var desired := get_desired_keep_no_check(texture_size, min_size, max_size)
+	var desired := get_desired_keep_raw(texture_size, min_size, max_size)
 	
 	if not ( min_size.x <= desired.x and desired.x <= max_size.x
 		and min_size.y <= desired.y and desired.y <= max_size.y
 	):
 		printerr("It is impossible to keep (1, 1) scale ratio with Min Size: ",
-		min_size, " and Max Size: ", max_size)
+		min_size, " and Max Size: ", max_size, ". Scale was not modified.")
 		
 		return input_scale
 	
@@ -89,7 +89,7 @@ static func get_desired_smart(
 	texture_size: Vector2, min_size: Vector2, max_size: Vector2
 ) -> Vector2:
 	
-	var desired := get_desired_keep_no_check(texture_size, min_size, max_size)
+	var desired := get_desired_keep_raw(texture_size, min_size, max_size)
 	
 	desired = Vector2(
 		clampf(desired.x, min_size.x, max_size.x),
@@ -103,7 +103,7 @@ static func get_desired_smart(
 ## [b]Note[/b]: If a ratio of [code](1, 1)[/code] cannot be achieved then a wrong
 ## value will be returned and no error will be printed.[br][br]
 ## It is called internally by [method get_desired_keep] and [method get_desired_smart].
-static func get_desired_keep_no_check(
+static func get_desired_keep_raw(
 	texture_size : Vector2, min_size: Vector2, max_size: Vector2
 ) -> Vector2:
 	

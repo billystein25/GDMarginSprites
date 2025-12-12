@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cryuo7exbojfl"
-path="res://.godot/imported/MarginSprite3D.svg-5271a142e4f9ebbe9d656e06350d6a9e.ctex"
+uid="uid://dsp8exlnjmbnb"
+path="res://.godot/imported/MarginSpritesIcon.svg-1ab39fde34a2d7fe8d899eb432d9527a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/margin_sprites/MarginSprite3D.svg"
-dest_files=["res://.godot/imported/MarginSprite3D.svg-5271a142e4f9ebbe9d656e06350d6a9e.ctex"]
+source_file="res://addons/margin_sprites/MarginSpritesIcon.svg"
+dest_files=["res://.godot/imported/MarginSpritesIcon.svg-1ab39fde34a2d7fe8d899eb432d9527a.ctex"]
 
 [params]
 
