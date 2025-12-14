@@ -13,7 +13,6 @@ config_version=5
 config/name="GoMarginSprites"
 run/main_scene="uid://d4kfo0nh8d4k1"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
 
 [editor]
 
