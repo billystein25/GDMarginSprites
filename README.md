@@ -1,4 +1,4 @@
-![](https://github.com/billystein25/GoMarginSprites/blob/master/repo_assets/GoMarginSpritesIcon.jpg)
+![](https://github.com/billystein25/GoMarginSprites/blob/master/.github/ASSETS/GoMarginSpritesIcon.jpg)
 # GoMarginSprites
 This plugin adds support for Margin Sprites for Godot, both for 2D and 3D.<br>
 
@@ -14,10 +14,10 @@ This plugin is not a substitute for creating properly sized texture resources an
 
 ## Images
 2D Example and explanation<br>
-![](https://github.com/billystein25/GoMarginSprites/blob/master/repo_assets/2d_example.gif)
+![](https://github.com/billystein25/GoMarginSprites/blob/master/.github/ASSETS/2d_example.gif)
 
 3D Example and explanation<br>
-![](https://github.com/billystein25/GoMarginSprites/blob/master/repo_assets/3d_example.gif)
+![](https://github.com/billystein25/GoMarginSprites/blob/master/.github/ASSETS/3d_example.gif)
 
 ## Documentation
 All the implemented members are well documented within the code itself but here is
