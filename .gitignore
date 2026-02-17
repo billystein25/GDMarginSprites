@@ -16,5 +16,8 @@ export_credentials.cfg
 data_*/
 mono_crash.*.json
 
-# Ignore Visual Studio Code settings
+# Visual Studio Code settings
 .vscode/
+
+# plugin-specific ignores
+project.godot
