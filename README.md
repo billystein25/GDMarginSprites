@@ -1,5 +1,5 @@
-![](https://github.com/billystein25/GoMarginSprites/blob/master/.github/ASSETS/GoMarginSpritesIcon.jpg)
-# GoMarginSprites
+![](https://github.com/billystein25/GDMarginSprites/blob/master/.github/ASSETS/GoMarginSpritesIcon.jpg)
+# GDMarginSprites
 This plugin adds support for Margin Sprites for Godot, both for 2D and 3D.<br>
 
 A Margin Sprite allows you to set a minimum and maximum size in pixels or meters for 2D and 3D respectively, while the sprite itself will scale automatically to fit these margines. It works similarly to the auto scaling of TextureRect.<br>
@@ -7,17 +7,17 @@ A Margin Sprite allows you to set a minimum and maximum size in pixels or meters
 ## Usecase Example
 Imagine you need to have a an item that can be picked up in your 2D space, but your player only has one item slot. In that case if the player is already holding another item you would want the item on the ground to be replaced by the one your player is already holding. But what happens if the two items have vastly different texture sizes? In that case you would need to scale your sprite depending on what item is currently being displayed.<br>
 
-GoMarginSprites adds that functionality by implementing minimum and maximum sizes that the node will scale to. It also implements different stretch modes such as keeping the `(1, 1)` ratio of your texture, scaling the sprite disregarding the ratio, and attempting to keep the `(1, 1)` ratio and disregarding the offending axis if that fails.<br>
+GDMarginSprites adds that functionality by implementing minimum and maximum sizes that the node will scale to. It also implements different stretch modes such as keeping the `(1, 1)` ratio of your texture, scaling the sprite disregarding the ratio, and attempting to keep the `(1, 1)` ratio and disregarding the offending axis if that fails.<br>
 
 ## Note on Usecases
 This plugin is not a substitute for creating properly sized texture resources and it is recommended that it is not used as such. It is intended to be used in gamejams and other events where time is limited or you are unable to properly make images in the ideal resolution.
 
 ## Images
 2D Example and explanation<br>
-![](https://github.com/billystein25/GoMarginSprites/blob/master/.github/ASSETS/2d_example.gif)
+![](https://github.com/billystein25/GDMarginSprites/blob/master/.github/ASSETS/2d_example.gif)
 
 3D Example and explanation<br>
-![](https://github.com/billystein25/GoMarginSprites/blob/master/.github/ASSETS/3d_example.gif)
+![](https://github.com/billystein25/GDMarginSprites/blob/master/.github/ASSETS/3d_example.gif)
 
 ## Documentation
 All the implemented members are well documented within the code itself but here is
@@ -40,8 +40,8 @@ Stretch Mode is the way in which the scale will be modified.<br>
 The classes keep track of their current scale before it is overwritten and they emit the `scale_changed` signal when it is. The two parameters of that signal are the `old` scale and the `new` scale. This signal is emitted only if the scale has changed, if you need to know when the scale overwrite algorithm runs even if the scale isn't modified use `overwrite_scale_ran` instead.<br>
 
 ## Installation 
-• From within Godot: (This method does not work as of now. awaiting approval of asset library and asset store) You can download and install this plugin from within Godot itself by navigating to the top panel section and selecting AssetLib. From there you can search for GoMarginSprites and you will find this plugin made by me, billystein25. Once you find it, click on download and then install. Godot will take care of the rest.<br>
+• From within Godot: (This method does not work as of now. awaiting approval of asset library and asset store) You can download and install this plugin from within Godot itself by navigating to the top panel section and selecting AssetLib. From there you can search for GDMarginSprites and you will find this plugin made by me, billystein25. Once you find it, click on download and then install. Godot will take care of the rest.<br>
 
-• Manually: If you prefer the manual method you can download this plugin by downloading the MarginSprites-Vx.y.z release of your choice from the [releases](https://github.com/billystein25/GoMarginSprites/releases) page in the form of a .zip file. From there once you extract the contents of the .zip file, copy the "assets" folder into your Godot project. Make sure that you merge with the existing "assets" folder if you already have one. Finally, make sure that the plugin is enabled by navigating to Project/Project Settings/Plugins and enabling MarginSprites.<br>
+• Manually: If you prefer the manual method you can download this plugin by downloading the MarginSprites-Vx.y.z release of your choice from the [releases](https://github.com/billystein25/GDMarginSprites/releases) page in the form of a .zip file. From there once you extract the contents of the .zip file, copy the "assets" folder into your Godot project. Make sure that you merge with the existing "assets" folder if you already have one. Finally, make sure that the plugin is enabled by navigating to Project/Project Settings/Plugins and enabling MarginSprites.<br>
 
 For more information check the [official documentation](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html) on installing plugins.
