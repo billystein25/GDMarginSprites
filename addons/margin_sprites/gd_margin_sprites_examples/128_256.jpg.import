@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w618xlhyjyvq"
-path.s3tc="res://.godot/imported/256_128.jpg-e817743e9d52604f70d511f41aa89144.s3tc.ctex"
+uid="uid://cmotodt08k8pv"
+path.s3tc="res://.godot/imported/128_256.jpg-1deb739e659ce0d50d6bc0e658a3f2ea.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/margin_sprites/go_margin_sprites_examples/256_128.jpg"
-dest_files=["res://.godot/imported/256_128.jpg-e817743e9d52604f70d511f41aa89144.s3tc.ctex"]
+source_file="res://addons/margin_sprites/gd_margin_sprites_examples/128_256.jpg"
+dest_files=["res://.godot/imported/128_256.jpg-1deb739e659ce0d50d6bc0e658a3f2ea.s3tc.ctex"]
 
 [params]
 

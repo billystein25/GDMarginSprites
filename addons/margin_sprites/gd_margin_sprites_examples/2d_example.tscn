@@ -1,23 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://d4kfo0nh8d4k1"]
+[gd_scene format=3 uid="uid://d4kfo0nh8d4k1"]
 
-[ext_resource type="Texture2D" uid="uid://bq70icg77gbyb" path="res://addons/margin_sprites/go_margin_sprites_examples/px_image.png" id="1_nc477"]
-[ext_resource type="Texture2D" uid="uid://cldskyr46o236" path="res://addons/margin_sprites/go_margin_sprites_examples/128_128.jpg" id="1_tipss"]
-[ext_resource type="LabelSettings" uid="uid://c2intuigsm36b" path="res://addons/margin_sprites/go_margin_sprites_examples/label_settings.tres" id="2_1e2xs"]
+[ext_resource type="Texture2D" uid="uid://bq70icg77gbyb" path="res://addons/margin_sprites/gd_margin_sprites_examples/px_image.png" id="1_nc477"]
+[ext_resource type="Texture2D" uid="uid://cldskyr46o236" path="res://addons/margin_sprites/gd_margin_sprites_examples/128_128.jpg" id="1_tipss"]
+[ext_resource type="LabelSettings" uid="uid://c2intuigsm36b" path="res://addons/margin_sprites/gd_margin_sprites_examples/label_settings.tres" id="2_1e2xs"]
 [ext_resource type="Script" uid="uid://dn06g0o5len06" path="res://addons/margin_sprites/margin_sprite_2d.gd" id="2_wu8pb"]
-[ext_resource type="Script" uid="uid://dgksc10cvqfwn" path="res://addons/margin_sprites/go_margin_sprites_examples/2d_ex_2.gd" id="3_oixjd"]
-[ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/go_margin_sprites_examples/256_128.jpg" id="4_6raxd"]
-[ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/go_margin_sprites_examples/128_256.jpg" id="5_1n233"]
+[ext_resource type="Script" uid="uid://dgksc10cvqfwn" path="res://addons/margin_sprites/gd_margin_sprites_examples/2d_ex_2.gd" id="3_oixjd"]
+[ext_resource type="Texture2D" uid="uid://w618xlhyjyvq" path="res://addons/margin_sprites/gd_margin_sprites_examples/256_128.jpg" id="4_6raxd"]
+[ext_resource type="Texture2D" uid="uid://cmotodt08k8pv" path="res://addons/margin_sprites/gd_margin_sprites_examples/128_256.jpg" id="5_1n233"]
 
-[node name="2d_example" type="Node2D"]
+[node name="2d_example" type="Node2D" unique_id=1024707178]
 
-[node name="PxImage" type="Sprite2D" parent="."]
+[node name="PxImage" type="Sprite2D" parent="." unique_id=1019678830]
 texture = ExtResource("1_nc477")
 offset = Vector2(576, 324)
 
-[node name="Ex1" type="Node2D" parent="."]
+[node name="Ex1" type="Node2D" parent="." unique_id=1176018488]
 position = Vector2(168, 0)
 
-[node name="LabelRaw" type="Label" parent="Ex1"]
+[node name="LabelRaw" type="Label" parent="Ex1" unique_id=683381268]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -34,11 +34,11 @@ label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Raw" type="Sprite2D" parent="Ex1"]
+[node name="Raw" type="Sprite2D" parent="Ex1" unique_id=791177106]
 position = Vector2(136, 105)
 texture = ExtResource("1_tipss")
 
-[node name="Min>128" type="Label" parent="Ex1"]
+[node name="Min>128" type="Label" parent="Ex1" unique_id=432012852]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -59,7 +59,7 @@ label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginSprite2D" type="Sprite2D" parent="Ex1"]
+[node name="MarginSprite2D" type="Sprite2D" parent="Ex1" unique_id=1086383678]
 position = Vector2(28, 380)
 scale = Vector2(1.5, 1.25)
 texture = ExtResource("1_tipss")
@@ -69,7 +69,7 @@ min_size = Vector2(192, 160)
 max_size = Vector2(256, 256)
 metadata/_custom_type_script = "uid://dn06g0o5len06"
 
-[node name="Min>129" type="Label" parent="Ex1"]
+[node name="Min>129" type="Label" parent="Ex1" unique_id=1458786774]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -89,7 +89,7 @@ label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginSprite2D2" type="Sprite2D" parent="Ex1"]
+[node name="MarginSprite2D2" type="Sprite2D" parent="Ex1" unique_id=499599278]
 position = Vector2(173, 556.00006)
 scale = Vector2(0.625, 0.859375)
 texture = ExtResource("1_tipss")
@@ -99,11 +99,11 @@ min_size = Vector2(0, 0)
 max_size = Vector2(80, 110)
 metadata/_custom_type_script = "uid://dn06g0o5len06"
 
-[node name="Ex2" type="Node2D" parent="."]
+[node name="Ex2" type="Node2D" parent="." unique_id=1894532418]
 position = Vector2(794, 0)
 script = ExtResource("3_oixjd")
 
-[node name="LabelRaw" type="Label" parent="Ex2"]
+[node name="LabelRaw" type="Label" parent="Ex2" unique_id=1097101111]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -120,15 +120,15 @@ label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Raw" type="Sprite2D" parent="Ex2"]
+[node name="Raw" type="Sprite2D" parent="Ex2" unique_id=372723145]
 position = Vector2(6, 105)
 texture = ExtResource("4_6raxd")
 
-[node name="Raw2" type="Sprite2D" parent="Ex2"]
+[node name="Raw2" type="Sprite2D" parent="Ex2" unique_id=451000066]
 position = Vector2(270, 172)
 texture = ExtResource("5_1n233")
 
-[node name="Min>128" type="Label" parent="Ex2"]
+[node name="Min>128" type="Label" parent="Ex2" unique_id=1780899061]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -151,14 +151,14 @@ label_settings = ExtResource("2_1e2xs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginSprite2D" type="Sprite2D" parent="Ex2"]
+[node name="MarginSprite2D" type="Sprite2D" parent="Ex2" unique_id=1465151579]
 position = Vector2(156, 499)
 scale = Vector2(0.78125, 0.78125)
 texture = ExtResource("5_1n233")
 script = ExtResource("2_wu8pb")
 min_size = Vector2(50, 50)
-max_size = Vector2(200, 200)
+max_size = Vector2(300, 200)
 metadata/_custom_type_script = "uid://dn06g0o5len06"
 
-[node name="Timer" type="Timer" parent="Ex2"]
+[node name="Timer" type="Timer" parent="Ex2" unique_id=424242785]
 autostart = true
