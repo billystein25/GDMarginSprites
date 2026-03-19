@@ -1,7 +1,7 @@
 # GDMarginSprites
 This plugin adds support for Margin Sprites for Godot, both for 2D and 3D.<br>
 
-A Margin Sprite allows you to set a minimum and maximum size in pixels or meters for 2D and 3D respectively, while the sprite itself will scale automatically to fit these margines. It works similarly to the auto scaling of TextureRect.<br>
+A Margin Sprite allows you to set a minimum and maximum size in pixels or meters for 2D and 3D respectively, while the sprite itself will scale automatically to fit these margins. It works similarly to the auto scaling of TextureRect.<br>
 
 ## Usecase Example
 Imagine you need to have a an item that can be picked up in your 2D space, but your player only has one item slot. In that case if the player is already holding another item you would want the item on the ground to be replaced by the one your player is already holding. But what happens if the two items have vastly different texture sizes? In that case you would need to scale your sprite depending on what item is currently being displayed.<br>
